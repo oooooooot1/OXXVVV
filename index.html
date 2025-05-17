@@ -32,57 +32,47 @@
             margin-bottom: 20px;
         }
 
-        .title-mw {
+        .time-day-box {
+            background-color: #000;
+            border: 3px solid #b8860b;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+        }
+
+        .mw-clock {
             text-align: center;
-            font-size: 1.2em;
-            color: #FFD700;
-            margin-bottom: 10px;
-            font-weight: bold;
         }
 
-        .time-date-section {
+        .title-mw {
+            font-size: 1.5em;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .current-day-time {
+            font-size: 2em;
+            margin: 10px 0;
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .time {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 2.8em;
+            justify-content: center;
+            gap: 15px;
             color: #FFD700;
-            letter-spacing: 2px;
         }
 
         .date-container {
-            font-size: 0.9em;
-            text-align: right;
-        }
-        .date-container div {
-            margin-bottom: 3px;
-        }
-        .date-container .label {
-            font-size: 0.8em;
-            color: #ccc;
-        }
-
-        .current-day-arabic {
-            font-size: 1.5em;
-            color: #FFD700;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .days-of-week {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.8em;
+            font-size: 1.1em;
+            margin-top: 10px;
             color: #aaa;
         }
-        .days-of-week span.active-day {
-            color: #ff4d4d;
-            font-weight: bold;
+
+        .hijri-date, .gregorian-date {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 5px 0;
         }
 
         .countdown-section {
@@ -127,17 +117,6 @@
             display: contents;
         }
 
-        .prayer-row.active-prayer .prayer-name,
-        .prayer-row.active-prayer .prayer-time {
-             background-color: #303d30;
-             box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
-        }
-
-        .prayer-row.active-prayer .adhan-time {
-             background-color: #403030;
-             box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
-         }
-
         .prayer-name {
             font-family: 'Cairo', sans-serif;
             font-size: 1.3em;
@@ -149,7 +128,6 @@
             background-color: #333;
             border-radius: 5px;
             padding: 8px 0;
-            text-align: center;
         }
 
         .prayer-time {
@@ -176,6 +154,7 @@
             text-align: left;
             padding-left: 10px;
         }
+
         #shuruq-iqama {
             color: #555;
             background-color: #111;
@@ -248,27 +227,34 @@
 </head>
 <body>
     <div class="container">
-        <div class="title-mw">MW_ساعه</div>
-
-        <header class="header">
-            <div class="time-date-section">
-                <div class="time" id="current-time">00:00 AM</div>
+        <!-- مربع الساعة واليوم والتاريخ -->
+        <div class="time-day-box">
+            <div class="mw-clock">
+                <div class="title-mw">MW_ساعه</div>
+                <div class="current-day-time">
+                    <span id="current-day-ar">السبت</span>
+                    <span id="current-time">٠٥:١٤ ص</span>
+                </div>
                 <div class="date-container">
-                    <div><span id="gregorian-date">DD-MM-YYYY</span> <span class="label">ميلادي</span></div>
-                    <div><span id="hijri-date">DD-MM-YYYY</span> <span class="label">هجري</span></div>
+                    <div class="hijri-date">
+                        <span id="hijri-date">١٩ ذو القعدة ١٤٤٦</span>
+                        <span class="label">هجري</span>
+                    </div>
+                    <div class="gregorian-date">
+                        <span id="gregorian-date">١٧/٠٥/٢٠٢٥</span>
+                        <span class="label">ميلادي</span>
+                    </div>
                 </div>
             </div>
-            <div class="current-day-arabic" id="current-day-ar">اليوم</div>
-            <div class="days-of-week" id="days-of-week">
-                <span>السبت</span><span>الأحد</span><span>الاثنين</span><span>الثلاثاء</span><span>الأربعاء</span><span>الخميس</span><span>الجمعة</span>
-            </div>
-        </header>
+        </div>
 
+        <!-- العد التنازلي -->
         <section class="countdown-section">
             <div id="next-prayer-countdown-label">باقي لـ...</div>
             <div id="countdown-timer">00:00:00</div>
         </section>
 
+        <!-- جدول أوقات الصلاة -->
         <main class="prayer-times-grid">
             <div class="prayer-header">الأذان</div>
             <div class="prayer-header">الصلاة</div>
@@ -306,9 +292,10 @@
             </div>
         </main>
 
+        <!-- التذييل -->
         <footer class="footer">
             <div id="city-name">الرياض</div>
-            <div class="location-label">الموقع الافتراضي: الرياض، السعودية</div>
+            <div class="location-label">المنطقة الزمنية: Asia/Riyadh</div>
         </footer>
     </div>
 
@@ -316,19 +303,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // العناصر الأساسية
             const currentTimeEl = document.getElementById('current-time');
             const gregorianDateEl = document.getElementById('gregorian-date');
             const hijriDateEl = document.getElementById('hijri-date');
             const currentDayArEl = document.getElementById('current-day-ar');
-            const daysOfWeekContainer = document.getElementById('days-of-week');
-            const prayerRows = document.querySelectorAll('.prayer-row');
             const countdownLabelEl = document.getElementById('next-prayer-countdown-label');
             const countdownTimerEl = document.getElementById('countdown-timer');
-            const cityNameEl = document.getElementById('city-name');
-            const dhuhrJumuaLabelEl = document.getElementById('dhuhr-jumua-label');
+            const prayerRows = document.querySelectorAll('.prayer-row');
 
-            const PRAYER_NAMES_AR = { Fajr: "الفجر", Sunrise: "الشروق", Dhuhr: "الظهر", Asr: "العصر", Maghrib: "المغرب", Isha: "العشاء", Jumua: "الجمعة" };
-            const IQAMA_OFFSETS = { Fajr: 30, Dhuhr: 30, Asr: 20, Maghrib: 10, Isha: 20, Sunrise: null };
+            const IQAMA_OFFSETS = { Fajr:30, Dhuhr:30, Asr:20, Maghrib:10, Isha:20, Sunrise:null };
             let prayerTimesData = {};
             let nextPrayerInfo = null;
             let countdownInterval;
@@ -336,30 +320,37 @@
             // تحديث الوقت والتاريخ
             function updateClock() {
                 const now = new Date();
-                const timeStr = now.toLocaleTimeString('ar-EG', { hour12: true, hour: '2-digit', minute: '2-digit' });
-                currentTimeEl.textContent = timeStr;
+                const options = { 
+                    hour12: true, 
+                    hour: 'numeric', 
+                    minute: '2-digit', 
+                    timeZone: 'Asia/Riyadh'
+                };
+                currentTimeEl.textContent = now.toLocaleTimeString('ar-EG', options);
+                currentDayArEl.textContent = now.toLocaleDateString('ar-EG', { weekday: 'long' });
+                gregorianDateEl.textContent = now.toLocaleDateString('ar-EG');
+            }
 
-                const gregorianDate = now.toLocaleDateString('ar-EG', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                gregorianDateEl.textContent = gregorianDate;
-
-                const dayIndex = now.getDay();
-                currentDayArEl.textContent = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'][dayIndex];
-                
-                document.querySelectorAll('#days-of-week span').forEach((span, index) => {
-                    span.classList.toggle('active-day', index === dayIndex);
-                });
-
-                if (dhuhrJumuaLabelEl) {
-                    dhuhrJumuaLabelEl.textContent = (dayIndex === 5) ? PRAYER_NAMES_AR.Jumua : PRAYER_NAMES_AR.Dhuhr;
+            // جلب التاريخ الهجري
+            async function fetchHijriDate() {
+                const now = new Date();
+                try {
+                    const response = await fetch(`https://api.aladhan.com/v1/gToH/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`);
+                    const data = await response.json();
+                    if (data.code === 200) {
+                        const hijri = data.data.hijri;
+                        hijriDateEl.textContent = `${hijri.day} ${hijri.month.ar} ${hijri.year}`;
+                    }
+                } catch (error) {
+                    console.error("خطأ في جلب التاريخ الهجري:", error);
                 }
             }
 
-            // جلب أوقات الصلاة من API
+            // جلب أوقات الصلاة
             async function fetchPrayerTimes() {
                 try {
-                    const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=SA&method=4');
+                    const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=SA&method=4&timezone=Asia/Riyadh');
                     const data = await response.json();
-                    
                     if (data.code === 200) {
                         prayerTimesData = data.data.timings;
                         updatePrayerTimesUI();
@@ -377,58 +368,54 @@
                 prayers.forEach(prayer => {
                     const adhanEl = document.getElementById(`${prayer.toLowerCase()}-adhan`);
                     const iqamaEl = document.getElementById(`${prayer.toLowerCase()}-iqama`);
+                    const time = prayerTimesData[prayer] || '--:--';
                     
-                    if (adhanEl) {
-                        const adhanTime = prayerTimesData[prayer] || '--:--';
-                        adhanEl.textContent = formatTime(adhanTime);
-                    }
-
-                    if (iqamaEl && IQAMA_OFFSETS[prayer] !== null) {
-                        iqamaEl.textContent = calculateIqamaTime(prayerTimesData[prayer], prayer);
+                    if (adhanEl) adhanEl.textContent = formatTime(time);
+                    if (iqamaEl && IQAMA_OFFSETS[prayer]) {
+                        iqamaEl.textContent = calculateIqamaTime(time, prayer);
                     }
                 });
             }
 
+            // تنسيق الوقت (12 ساعة)
+            function formatTime(time24) {
+                if (!time24.includes(':')) return '--:--';
+                const [hours24, minutes] = time24.split(':');
+                const hours = parseInt(hours24);
+                const ampm = hours >= 12 ? 'م' : 'ص';
+                const hours12 = hours % 12 || 12;
+                return `${hours12}:${minutes} ${ampm}`;
+            }
+
             // حساب وقت الإقامة
             function calculateIqamaTime(adhanTime, prayerKey) {
-                if (!adhanTime || !IQAMA_OFFSETS[prayerKey]) return '--:--';
                 const [hours, minutes] = adhanTime.split(':').map(Number);
                 const totalMinutes = (hours * 60 + minutes) + IQAMA_OFFSETS[prayerKey];
                 const iqamaHours = Math.floor(totalMinutes / 60) % 24;
                 const iqamaMinutes = totalMinutes % 60;
-                return `${iqamaHours.toString().padStart(2, '0')}:${iqamaMinutes.toString().padStart(2, '0')}`;
-            }
-
-            // تنسيق الوقت
-            function formatTime(time24) {
-                if (!time24) return '--:--';
-                const [hours, minutes] = time24.split(':');
-                const period = hours >= 12 ? 'PM' : 'AM';
-                const hours12 = hours % 12 || 12;
-                return `${hours12}:${minutes} ${period}`;
+                return formatTime(`${iqamaHours}:${iqamaMinutes}`);
             }
 
             // حساب الصلاة القادمة
             function calculateNextPrayer() {
                 const now = new Date();
                 const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-                let nextPrayer = null;
                 let nextPrayerTime = null;
+                let nextPrayerName = null;
 
                 prayers.forEach(prayer => {
-                    const adhanTime = prayerTimesData[prayer];
-                    if (!adhanTime) return;
-
-                    const [hours, minutes] = adhanTime.split(':').map(Number);
-                    const prayerTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
-                    if (prayerTime > now && (!nextPrayerTime || prayerTime < nextPrayerTime)) {
-                        nextPrayer = prayer;
-                        nextPrayerTime = prayerTime;
+                    const time = prayerTimesData[prayer];
+                    if (!time) return;
+                    const [hours, minutes] = time.split(':').map(Number);
+                    const prayerDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+                    if (prayerDate > now && (!nextPrayerTime || prayerDate < nextPrayerTime)) {
+                        nextPrayerTime = prayerDate;
+                        nextPrayerName = prayer;
                     }
                 });
 
                 if (nextPrayerTime) {
-                    startCountdown(nextPrayerTime);
+                    startCountdown(nextPrayerTime, nextPrayerName);
                 } else {
                     countdownLabelEl.textContent = "لا توجد صلاة قادمة";
                     countdownTimerEl.textContent = "--:--:--";
@@ -436,37 +423,31 @@
             }
 
             // تشغيل العد التنازلي
-            function startCountdown(targetTime) {
+            function startCountdown(targetTime, prayerName) {
                 if (countdownInterval) clearInterval(countdownInterval);
                 countdownInterval = setInterval(() => {
                     const now = new Date();
                     const diff = targetTime - now;
-
+                    
                     if (diff <= 0) {
                         clearInterval(countdownInterval);
-                        countdownLabelEl.textContent = "حان وقت الصلاة!";
+                        countdownLabelEl.textContent = `حان وقت ${PRAYER_NAMES_AR[prayerName]}`;
                         countdownTimerEl.textContent = "00:00:00";
                         fetchPrayerTimes();
                         return;
                     }
 
-                    const hours = Math.floor(diff / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                    countdownTimerEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    const hours = Math.floor(diff / 3600000);
+                    const minutes = Math.floor((diff % 3600000) / 60000);
+                    const seconds = Math.floor((diff % 60000) / 1000);
+                    countdownTimerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 }, 1000);
             }
 
-            // عرض رسالة الخطأ
-            function displayError() {
-                document.querySelectorAll('.prayer-time').forEach(el => el.textContent = '--:--');
-                countdownLabelEl.textContent = "خطأ في جلب البيانات";
-                countdownTimerEl.textContent = "--:--:--";
-            }
-
-            // التهيئة الأولية
+            // التهيئة
             function initialize() {
                 updateClock();
+                fetchHijriDate();
                 fetchPrayerTimes();
                 setInterval(updateClock, 1000);
                 setInterval(fetchPrayerTimes, 3600000); // تحديث كل ساعة
