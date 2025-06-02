@@ -1,460 +1,1729 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أوقات الصلاة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link rel="icon" href="72.png" type="image/png">
+    <title> Anatomy Test - Dr. Osama</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- بداية كود CSS --- */
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+        * {
             margin: 0;
-            padding-top: 20px;
-            direction: rtl;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #8a2be2;
+            --secondary: #20b2aa;
+            --dark: #0f172a;
+            --darker: #0a0e1a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --glow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background effects */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(138, 43, 226, 0.15);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
         .container {
-            width: 90%;
-            max-width: 700px;
-            background-color: #000000;
-            border: 5px solid #b8860b;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding: 15px;
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 8px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(138, 43, 226, 0.2);
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(138, 43, 226, 0.3); }
+            to { text-shadow: 0 0 15px rgba(138, 43, 226, 0.7); }
+        }
+
+        header p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--gray);
+        }
+
+        .logo {
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-shadow: var(--glow);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .screen {
+            background: rgba(15, 23, 42, 0.85);
             border-radius: 20px;
-            padding: 15px;
-            box-shadow: 0 0 20px rgba(218, 165, 32, 0.5);
-            margin-bottom: 20px;
-        }
-
-        .time-day-box {
-            background-color: #000;
-            border: 3px solid #b8860b;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 10px auto;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
-        }
-
-        .mw-clock {
-            text-align: center;
-        }
-
-        .title-mw {
-            font-size: 1.5em;
-            color: #FFD700;
-            margin-bottom: 10px;
-        }
-
-        .current-day-time {
-            font-size: 2em;
-            margin: 10px 0;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: var(--transition);
+            min-height: 400px;
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            color: #FFD700;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
-        .date-container {
-            font-size: 1.1em;
-            margin-top: 10px;
-            color: #aaa;
-        }
-
-        .hijri-date, .gregorian-date {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin: 5px 0;
-        }
-
-        .countdown-section {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        #next-prayer-countdown-label {
-            font-size: 1.1em;
-            color: #FFD700;
-            margin-bottom: 5px;
-        }
-
-        #countdown-timer {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 2.2em;
-            color: #FFD700;
-            background-color: #222;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-
-        .prayer-times-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr;
-            gap: 8px 5px;
-            margin-top: 15px;
-        }
-
-        .prayer-header {
-            font-weight: bold;
-            color: #FFD700;
-            padding: 10px;
-            text-align: center;
-            background-color: #222;
-            border-radius: 5px;
-            margin-bottom: 5px;
-        }
-
-        .prayer-row {
-            display: contents;
-        }
-
-        .prayer-name {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.3em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            background-color: #333;
-            border-radius: 5px;
-            padding: 8px 0;
-        }
-
-        .prayer-time {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.8em;
-            font-weight: bold;
-            padding: 8px 0;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .adhan-time {
-            color: #FF0000;
-            background-color: #300000;
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        .iqama-time {
-            color: #00FF00;
-            background-color: #003000;
-            text-align: left;
-            padding-left: 10px;
-        }
-
-        #shuruq-iqama {
-            color: #555;
-            background-color: #111;
-            text-align: center;
-            padding: 8px 0;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #444;
-        }
-
-        #city-name {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #FFD700;
-        }
-
-        .location-label {
-            font-size: 0.8em;
-            color: #aaa;
-        }
-
-        .bottom-logo {
-            display: block;
-            margin: 20px auto;
-            max-width: 80px;
-            height: auto;
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             opacity: 0.7;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
+        .screen.hidden {
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .timer-container {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 50px;
+            padding: 8px 16px;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--primary);
+            box-shadow: var(--glow);
+            animation: pulseBorder 2s infinite alternate;
+        }
+
+        @keyframes pulseBorder {
+            from { box-shadow: 0 0 10px rgba(138, 43, 226, 0.3); }
+            to { box-shadow: 0 0 15px rgba(138, 43, 226, 0.6); }
+        }
+
+        .timer {
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            color: var(--warning);
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        }
+
+        .question-container {
+            margin: 15px 0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-number {
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            color: var(--gray);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-number::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .question-text {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            background: rgba(138, 43, 226, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            box-shadow: inset 0 0 10px rgba(138, 43, 226, 0.2);
+            position: relative;
+        }
+
+        .question-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 3px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .option {
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(138, 43, 226, 0.1));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+            background: rgba(138, 43, 226, 0.15);
+        }
+
+        .option:hover::before {
+            opacity: 1;
+        }
+
+        .option:active {
+            transform: translateY(0);
+        }
+
+        .option .letter {
+            width: clamp(35px, 8vw, 40px);
+            height: clamp(35px, 8vw, 40px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark);
+            font-weight: bold;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: clamp(12px, 3vw, 15px) clamp(30px, 7vw, 40px);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            font-weight: bold;
+            box-shadow: var(--glow);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.8);
+        }
+
+        .btn:hover::after {
+            left: 120%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .start-screen {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 450px;
+        }
+
+        .start-screen h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 15px;
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(32, 178, 170, 0.4);
+        }
+
+        .instructions {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            line-height: 1.7;
+            border: 1px solid rgba(32, 178, 170, 0.3);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            box-shadow: inset 0 0 15px rgba(32, 178, 170, 0.2);
+            position: relative;
+        }
+
+        .instructions::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding: 0 15px;
+            text-align: left;
+        }
+
+        .instructions li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 22px;
+        }
+
+        .instructions li:before {
+            content: "•";
+            color: var(--secondary);
+            font-size: 1.3rem;
+            position: absolute;
+            left: 0;
+            top: -3px;
+        }
+
+        .result-screen {
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: clamp(4rem, 10vw, 6rem);
+            color: var(--success);
+            margin: 25px 0;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            padding: 15px;
+            border-top: 4px solid var(--primary);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card:nth-child(2) {
+            border-top-color: var(--secondary);
+        }
+
+        .stat-card:nth-child(3) {
+            border-top-color: var(--success);
+        }
+
+        .stat-card:nth-child(4) {
+            border-top-color: var(--warning);
+        }
+
+        .stat-value {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: bold;
+            margin: 8px 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .certificate {
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 2px dashed var(--primary);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238a2be2' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .signature div {
+            text-align: center;
+        }
+
+        .signature .name {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--secondary);
+            margin-top: 8px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .progress-container {
+            margin: 15px 0;
+            background: rgba(30, 41, 59, 0.7);
+            height: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 8px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: skewX(-20deg);
+            animation: progressGlow 1.5s infinite;
+        }
+
+        @keyframes progressGlow {
+            0% { left: -20px; }
+            100% { left: 100%; }
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            body {
                 padding: 10px;
             }
-            .time {
-                font-size: 2em;
+            
+            .container {
+                padding: 10px;
             }
-            #countdown-timer {
-                font-size: 1.8em;
+            
+            .screen {
+                padding: 15px;
+                min-height: 350px;
             }
-            .prayer-name {
-                font-size: 1em;
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
-            .prayer-time {
-                font-size: 1.3em;
+            
+            .question-text {
+                padding: 12px;
+                margin-bottom: 20px;
             }
-            .adhan-time, .iqama-time {
-                padding: 8px 5px;
+            
+            .option {
+                padding: 12px;
             }
-            .days-of-week {
-                font-size: 0.7em;
-                gap: 5px;
+            
+            .instructions {
+                padding: 15px;
             }
-            .header {
-                padding-top: 10px;
+            
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 12px;
             }
-            .prayer-times-grid {
-                margin-top: 10px;
-            }
-            .bottom-logo {
-                max-width: 60px;
-                margin: 15px auto;
+            
+            .signature {
+                flex-direction: column;
+                gap: 15px;
             }
         }
+
+        /* Very small screens */
+        @media (max-width: 480px) {
+            .timer-container {
+                padding: 6px 12px;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option .text {
+                font-size: 0.95rem;
+            }
+            
+            .certificate {
+                padding: 15px;
+            }
+        }
+
+        /* Effects when selecting answer */
+        .option.selected {
+            background: rgba(138, 43, 226, 0.25);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .option.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--success);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .option.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Transition effects between questions */
+        .question-container {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .question-container.fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Timer effects */
+        .timer.warning {
+            color: var(--warning);
+            animation: blink 1s infinite;
+        }
+
+        .timer.danger {
+            color: var(--danger);
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.7; }
+        }
+        
+        /* New Audio Controls */
+        .audio-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        
+        .sound-btn {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--glow);
+        }
+        
+        .sound-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Floating notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.3s forwards, fadeOut 0.5s forwards 2s;
+        }
+        
+        @keyframes slideIn {
+            from { top: -50px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Animated background particles -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <div class="sound-btn" id="sound-toggle">
+            <i class="fas fa-volume-up"></i>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">Correct Answer!</div>
+
     <div class="container">
-        <!-- مربع الساعة واليوم والتاريخ -->
-        <div class="time-day-box">
-            <div class="mw-clock">
-                <div class="title-mw">MW_ساعه</div>
-                <div class="current-day-time">
-                    <span id="current-day-ar">السبت</span>
-                    <span id="current-time">٠٥:١٤ ص</span>
-                </div>
-                <div class="date-container">
-                    <div class="hijri-date">
-                        <span id="hijri-date">١٩ ذو القعدة ١٤٤٦</span>
-                        <span class="label">هجري</span>
-                    </div>
-                    <div class="gregorian-date">
-                        <span id="gregorian-date">١٧/٠٥/٢٠٢٥</span>
-                        <span class="label">ميلادي</span>
-                    </div>
+        <header>
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1>Dr. Osama / Anatomy Test</h1>
+            <p>NO NO NO GPT</p>
+        </header>
+
+        <!-- Start screen -->
+        <div class="screen start-screen" id="start-screen">
+            <h2>Dont cheat Ill kill you</h2>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> Test Instructions:</h3>
+                <ul>
+                    <li>The test contains 50 questions on human anatomy</li>
+                    <li>You have 30 minutes to complete all questions</li>
+                    <li>Choose the correct answer from options (A, B, C, D)</li>
+                    <li>After selecting an answer, you'll move to the next question</li>
+                    <li>You cannot return to previous questions</li>
+                    <li>At the end, you'll see your results with a certificate</li>
+                    <li>New: Sound effects and visual enhancements!</li>
+                    <li>nooooooooooo ai!</li>
+                </ul>
+            </div>
+            
+            <button class="btn" id="start-btn">
+                Start Test Now <i class="fas fa-play"></i>
+            </button>
+        </div>
+
+        <!-- Test screen -->
+        <div class="screen hidden" id="test-screen">
+            <div class="timer-container">
+                <i class="fas fa-clock"></i>
+                <div class="timer" id="timer">30:00</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+            </div>
+            
+            <div class="question-container" id="question-container">
+                <div class="question-number">Question <span id="current-q">1</span> of <span id="total-q">50</span></div>
+                <div class="question-text" id="question-text">Loading first question...</div>
+                
+                <div class="options-grid" id="options-grid">
+                    <!-- Options will be added dynamically -->
                 </div>
             </div>
         </div>
 
-        <!-- العد التنازلي -->
-        <section class="countdown-section">
-            <div id="next-prayer-countdown-label">باقي لـ...</div>
-            <div id="countdown-timer">00:00:00</div>
-        </section>
-
-        <!-- جدول أوقات الصلاة -->
-        <main class="prayer-times-grid">
-            <div class="prayer-header">الأذان</div>
-            <div class="prayer-header">الصلاة</div>
-            <div class="prayer-header">الإقامة</div>
-
-            <div class="prayer-row" data-prayer="Fajr">
-                <div class="prayer-time adhan-time" id="fajr-adhan">00:00</div>
-                <div class="prayer-name">الفجر</div>
-                <div class="prayer-time iqama-time" id="fajr-iqama">00:00</div>
+        <!-- Results screen -->
+        <div class="screen hidden result-screen" id="result-screen">
+            <div class="result-icon">
+                <i class="fas fa-trophy"></i>
             </div>
-            <div class="prayer-row" data-prayer="Sunrise">
-                <div class="prayer-time adhan-time" id="shuruq-adhan">00:00</div>
-                <div class="prayer-name">الشروق</div>
-                <div class="prayer-time iqama-time" id="shuruq-iqama">--:--</div>
+            
+            <h2>Congratulations! You've completed the test</h2>
+            <p>Here are your final results:</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div>Correct Answers</div>
+                    <div class="stat-value" id="correct-answers">0</div>
+                    <div>out of <span id="total-questions">50</span></div>
+                </div>
+                
+                <div class="stat-card">
+                    <div>Wrong Answers</div>
+                    <div class="stat-value" id="wrong-answers">0</div>
+                    <div>Error Rate: <span id="wrong-percentage">0%</span></div>
+                </div>
+                
+                <div class="stat-card">
+                    <div>Final Score</div>
+                    <div class="stat-value" id="final-score">0%</div>
+                    <div>Grade: <span id="grade">-</span></div>
+                </div>
+                
+                <div class="stat-card">
+                    <div>Time Taken</div>
+                    <div class="stat-value" id="time-taken">00:00</div>
+                    <div>out of 30 minutes</div>
+                </div>
             </div>
-            <div class="prayer-row" data-prayer="Dhuhr">
-                <div class="prayer-time adhan-time" id="dhuhr-adhan">00:00</div>
-                <div class="prayer-name" id="dhuhr-jumua-label">الظهر</div>
-                <div class="prayer-time iqama-time" id="dhuhr-iqama">00:00</div>
+            
+            <div class="certificate">
+                <h3><i class="fas fa-certificate"></i> Certificate of Completion</h3>
+                <p>This certificate is awarded for successfully completing the test with a perfect score</p>
+                <p>From Dr. Osama Al-Mobramj</p>
+                <p>Take a screenshot, congratulations</p>
+                
+                <div class="signature">
+                    <div>
+                        <div>Signature</div>
+                        <div class="name">Dr. Osama</div>
+                    </div>
+                    <div>
+                        <div>Date</div>
+                        <div class="name" id="current-date"></div>
+                    </div>
+                </div>
             </div>
-            <div class="prayer-row" data-prayer="Asr">
-                <div class="prayer-time adhan-time" id="asr-adhan">00:00</div>
-                <div class="prayer-name">العصر</div>
-                <div class="prayer-time iqama-time" id="asr-iqama">00:00</div>
-            </div>
-            <div class="prayer-row" data-prayer="Maghrib">
-                <div class="prayer-time adhan-time" id="maghrib-adhan">00:00</div>
-                <div class="prayer-name">المغرب</div>
-                <div class="prayer-time iqama-time" id="maghrib-iqama">00:00</div>
-            </div>
-            <div class="prayer-row" data-prayer="Isha">
-                <div class="prayer-time adhan-time" id="isha-adhan">00:00</div>
-                <div class="prayer-name">العشاء</div>
-                <div class="prayer-time iqama-time" id="isha-iqama">00:00</div>
-            </div>
-        </main>
-
-        <!-- التذييل -->
-        <footer class="footer">
-            <div id="city-name">الرياض</div>
-            <div class="location-label">المنطقة الزمنية: Asia/Riyadh</div>
-        </footer>
+            
+            <button class="btn" id="restart-btn">
+                Restart Test <i class="fas fa-redo"></i>
+            </button>
+        </div>
     </div>
 
-    <img src="72.png" alt="شعار الموقع" class="bottom-logo">
+    <!-- Audio elements -->
+    <audio id="correct-sound" preload="auto">
+        <source src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
+    </audio>
+    <audio id="wrong-sound" preload="auto">
+        <source src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
+    </audio>
+    <audio id="complete-sound" preload="auto">
+        <source src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
+    </audio>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // العناصر الأساسية
-            const currentTimeEl = document.getElementById('current-time');
-            const gregorianDateEl = document.getElementById('gregorian-date');
-            const hijriDateEl = document.getElementById('hijri-date');
-            const currentDayArEl = document.getElementById('current-day-ar');
-            const countdownLabelEl = document.getElementById('next-prayer-countdown-label');
-            const countdownTimerEl = document.getElementById('countdown-timer');
-            const prayerRows = document.querySelectorAll('.prayer-row');
-
-            const IQAMA_OFFSETS = { Fajr:30, Dhuhr:30, Asr:20, Maghrib:10, Isha:20, Sunrise:null };
-            let prayerTimesData = {};
-            let nextPrayerInfo = null;
-            let countdownInterval;
-
-            // تحديث الوقت والتاريخ
-            function updateClock() {
-                const now = new Date();
-                const options = { 
-                    hour12: true, 
-                    hour: 'numeric', 
-                    minute: '2-digit', 
-                    timeZone: 'Asia/Riyadh'
-                };
-                currentTimeEl.textContent = now.toLocaleTimeString('ar-EG', options);
-                currentDayArEl.textContent = now.toLocaleDateString('ar-EG', { weekday: 'long' });
-                gregorianDateEl.textContent = now.toLocaleDateString('ar-EG');
+        // Create background particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 25 : 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Random animation time
+                const duration = Math.random() * 20 + 15;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Random color
+                const hue = Math.random() * 60 + 260; // Purple hues
+                particle.style.backgroundColor = `hsla(${hue}, 70%, 60%, 0.2)`;
+                
+                container.appendChild(particle);
             }
+        }
 
-            // جلب التاريخ الهجري
-            async function fetchHijriDate() {
-                const now = new Date();
-                try {
-                    const response = await fetch(`https://api.aladhan.com/v1/gToH/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`);
-                    const data = await response.json();
-                    if (data.code === 200) {
-                        const hijri = data.data.hijri;
-                        hijriDateEl.textContent = `${hijri.day} ${hijri.month.ar} ${hijri.year}`;
-                    }
-                } catch (error) {
-                    console.error("خطأ في جلب التاريخ الهجري:", error);
+        // Test data (all 50 questions in English)
+        const testData = {
+            title: "Human Anatomy Test",
+            duration: 30 * 60, // 30 minutes in seconds
+            questions: [
+{
+    id: 1,
+    text: "How many pairs of true ribs are present in the human thoracic cage?",
+    options: [
+        { id: 'A', text: "5" },
+        { id: 'B', text: "7" },
+        { id: 'C', text: "2" },
+        { id: 'D', text: "12" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 2,
+    text: "Which structure forms the anterior attachment of the costal cartilages of ribs 1–7?",
+    options: [
+        { id: 'A', text: "Xiphoid process" },
+        { id: 'B', text: "Manubrium" },
+        { id: 'C', text: "Body of sternum" },
+        { id: 'D', text: "Clavicle" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 3,
+    text: "Which of the following ribs is considered a 'floating rib'?",
+    options: [
+        { id: 'A', text: "10th rib" },
+        { id: 'B', text: "11th rib" },
+        { id: 'C', text: "8th rib" },
+        { id: 'D', text: "7th rib" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 4,
+    text: "The sternal angle (Angle of Louis) corresponds to which vertebral level?",
+    options: [
+        { id: 'A', text: "T3–T4" },
+        { id: 'B', text: "T4–T5" },
+        { id: 'C', text: "T5–T6" },
+        { id: 'D', text: "T2–T3" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 5,
+    text: "Which muscle occupies the space between adjacent ribs and assists in respiration?",
+    options: [
+        { id: 'A', text: "External oblique" },
+        { id: 'B', text: "External intercostal" },
+        { id: 'C', text: "Subcostalis" },
+        { id: 'D', text: "Transversus thoracis" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 6,
+    text: "In a typical rib, the tubercle articulates with which structure on the vertebra?",
+    options: [
+        { id: 'A', text: "Transverse process" },
+        { id: 'B', text: "Spinous process" },
+        { id: 'C', text: "Vertebral body" },
+        { id: 'D', text: "Pedicle" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 7,
+    text: "Which landmark marks the inferior border of the second rib on the sternum?",
+    options: [
+        { id: 'A', text: "Jugular notch" },
+        { id: 'B', text: "Xiphoid process" },
+        { id: 'C', text: "Sternal angle" },
+        { id: 'D', text: "Clavicular notch" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 8,
+    text: "Damage to the intercostal neurovascular bundle is most likely to occur in which location on a rib?",
+    options: [
+        { id: 'A', text: "Along the superior border" },
+        { id: 'B', text: "At the costal groove" },
+        { id: 'C', text: "At the tubercle" },
+        { id: 'D', text: "At the head" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 9,
+    text: "Which of the following ribs articulates directly with the body of the sternum at its own costal cartilage only?",
+    options: [
+        { id: 'A', text: "6th rib" },
+        { id: 'B', text: "8th rib" },
+        { id: 'C', text: "9th rib" },
+        { id: 'D', text: "7th rib" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 10,
+    text: "A flail chest results from fractures of multiple consecutive ribs in two or more places. This most commonly affects which region?",
+    options: [
+        { id: 'A', text: "Intercostal space 1–2" },
+        { id: 'B', text: "Costovertebral junction" },
+        { id: 'C', text: "Midaxillary line" },
+        { id: 'D', text: "Sternal border" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 11,
+    text: "Which cervical vertebra is characterized by the presence of a bifid spinous process and transverse foramina?",
+    options: [
+        { id: 'A', text: "C1" },
+        { id: 'B', text: "C2" },
+        { id: 'C', text: "C7" },
+        { id: 'D', text: "C3" }
+    ],
+    correctAnswer: 'D'
+},
+{
+    id: 12,
+    text: "The anterior boundary of the posterior triangle of the neck is formed by which muscle?",
+    options: [
+        { id: 'A', text: "Sternocleidomastoid" },
+        { id: 'B', text: "Trapezius" },
+        { id: 'C', text: "Scaleneus anterior" },
+        { id: 'D', text: "Omohyoid" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 13,
+    text: "Which nerve runs between the anterior and middle scalene muscles?",
+    options: [
+        { id: 'A', text: "Spinal accessory nerve" },
+        { id: 'B', text: "Phrenic nerve" },
+        { id: 'C', text: "Brachial plexus roots" },
+        { id: 'D', text: "Vagus nerve" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 14,
+    text: "The hyoid bone is located at the level of which cervical vertebra?",
+    options: [
+        { id: 'A', text: "C2" },
+        { id: 'B', text: "C3" },
+        { id: 'C', text: "C4" },
+        { id: 'D', text: "C5" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 15,
+    text: "The carotid bifurcation (common carotid into internal and external) is typically located opposite which vertebral level?",
+    options: [
+        { id: 'A', text: "C2–C3" },
+        { id: 'B', text: "C4" },
+        { id: 'C', text: "C5" },
+        { id: 'D', text: "C6" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 16,
+    text: "Which muscle forms the floor of the posterior triangle of the neck?",
+    options: [
+        { id: 'A', text: "Splenius capitis" },
+        { id: 'B', text: "Levator scapulae" },
+        { id: 'C', text: "Sternohyoid" },
+        { id: 'D', text: "Scalenus posterior" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 17,
+    text: "Which of the following is NOT a content of the carotid sheath?",
+    options: [
+        { id: 'A', text: "Internal jugular vein" },
+        { id: 'B', text: "Vagus nerve" },
+        { id: 'C', text: "Common carotid artery" },
+        { id: 'D', text: "Hypoglossal nerve" }
+    ],
+    correctAnswer: 'D'
+},
+{
+    id: 18,
+    text: "Damage to the spinal accessory nerve in the posterior triangle would most directly affect which movement?",
+    options: [
+        { id: 'A', text: "Neck flexion" },
+        { id: 'B', text: "Shoulder elevation" },
+        { id: 'C', text: "Head rotation to the opposite side" },
+        { id: 'D', text: "Jaw opening" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 19,
+    text: "Which vein is formed by the union of the retromandibular and posterior auricular veins and drains into the external jugular vein?",
+    options: [
+        { id: 'A', text: "Facial vein" },
+        { id: 'B', text: "Superior thyroid vein" },
+        { id: 'C', text: "Anterior jugular vein" },
+        { id: 'D', text: "Maxillary vein" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 20,
+    text: "A clinical test for the integrity of the cervical plexus at C3–C4 involves which reflex?",
+    options: [
+        { id: 'A', text: "Jaw jerk" },
+        { id: 'B', text: "Cremasteric reflex" },
+        { id: 'C', text: "Cervical cutaneous field sensation" },
+        { id: 'D', text: "Blink reflex" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 21,
+    text: "Which muscle has its origin on the transverse processes of C3–C6 and inserts on the first rib?",
+    options: [
+        { id: 'A', text: "Scalenus anterior" },
+        { id: 'B', text: "Scalenus medius" },
+        { id: 'C', text: "Scalenus posterior" },
+        { id: 'D', text: "Levator scapulae" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 22,
+    text: "Which muscle’s contraction elevates the ribs during forced inspiration and attaches to the sternum, xiphoid process, and costal cartilages?",
+    options: [
+        { id: 'A', text: "Transversus thoracis" },
+        { id: 'B', text: "Serratus posterior inferior" },
+        { id: 'C', text: "Serratus anterior" },
+        { id: 'D', text: "Pectoralis minor" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 23,
+    text: "Which muscle lies deep to the clavicle and attaches to the first rib, also assisting in stabilization of the clavicle?",
+    options: [
+        { id: 'A', text: "Subclavius" },
+        { id: 'B', text: "Subscapularis" },
+        { id: 'C', text: "Pectoralis minor" },
+        { id: 'D', text: "Pectoralis major" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 24,
+    text: "The diaphragm is innervated by which nerve?",
+    options: [
+        { id: 'A', text: "Intercostal nerve T12" },
+        { id: 'B', text: "Phrenic nerve C3–C5" },
+        { id: 'C', text: "Vagus nerve CN X" },
+        { id: 'D', text: "Sympathetic trunk" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 25,
+    text: "Which muscle forms the floor of the axilla and helps draw the scapula anteriorly and inferiorly?",
+    options: [
+        { id: 'A', text: "Latissimus dorsi" },
+        { id: 'B', text: "Serratus anterior" },
+        { id: 'C', text: "Pectoralis major" },
+        { id: 'D', text: "Subscapularis" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 26,
+    text: "Which muscle originates from the posterior tubercles of transverse processes of C1–C4 and inserts on the medial border of the scapula?",
+    options: [
+        { id: 'A', text: "Rhomboid minor" },
+        { id: 'B', text: "Levator scapulae" },
+        { id: 'C', text: "Trapezius" },
+        { id: 'D', text: "Splenius capitis" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 27,
+    text: "Which of the following muscles is innervated by the dorsal scapular nerve?",
+    options: [
+        { id: 'A', text: "Rhomboid major" },
+        { id: 'B', text: "Latissimus dorsi" },
+        { id: 'C', text: "Serratus posterior superior" },
+        { id: 'D', text: "Levator scapulae" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 28,
+    text: "Which muscle’s fibers run between adjacent ribs and are primarily responsible for depressing the ribs during forced expiration?",
+    options: [
+        { id: 'A', text: "Internal intercostal" },
+        { id: 'B', text: "External intercostal" },
+        { id: 'C', text: "Innermost intercostal" },
+        { id: 'D', text: "Subcostalis" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 29,
+    text: "Which muscle attaches to the sternum, clavicle, and mastoid process, and its unilateral contraction flexes and rotates the head?",
+    options: [
+        { id: 'A', text: "Trapezius" },
+        { id: 'B', text: "Sternocleidomastoid" },
+        { id: 'C', text: "Omohyoid" },
+        { id: 'D', text: "Digastric" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 30,
+    text: "An injury to the long thoracic nerve would most directly affect which muscle?",
+    options: [
+        { id: 'A', text: "Latissimus dorsi" },
+        { id: 'B', text: "Serratus anterior" },
+        { id: 'C', text: "Rhomboid major" },
+        { id: 'D', text: "Pectoralis minor" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 31,
+    text: "Which lobe of the right lung is most posterior when viewing the patient in anatomical position?",
+    options: [
+        { id: 'A', text: "Superior lobe" },
+        { id: 'B', text: "Middle lobe" },
+        { id: 'C', text: "Inferior lobe" },
+        { id: 'D', text: "Cardiac notch" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 32,
+    text: "Which bronchopulmonary segment is located at the apex of the right lung’s superior lobe?",
+    options: [
+        { id: 'A', text: "Apical segment" },
+        { id: 'B', text: "Posterior segment" },
+        { id: 'C', text: "Anterior segment" },
+        { id: 'D', text: "Superior segment" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 33,
+    text: "The horizontal fissure separates which two lobes of the right lung?",
+    options: [
+        { id: 'A', text: "Superior and inferior lobes" },
+        { id: 'B', text: "Middle and inferior lobes" },
+        { id: 'C', text: "Superior and middle lobes" },
+        { id: 'D', text: "Middle lobe and cardiac notch" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 34,
+    text: "Which artery provides the bronchial circulation to the left lung?",
+    options: [
+        { id: 'A', text: "Posterior intercostal artery" },
+        { id: 'B', text: "Bronchial artery from the thoracic aorta" },
+        { id: 'C', text: "Superior pulmonary artery" },
+        { id: 'D', text: "Inferior pulmonary vein" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 35,
+    text: "Which pleural recess extends between the costal pleura and diaphragmatic pleura at the midclavicular line?",
+    options: [
+        { id: 'A', text: "Costomediastinal recess" },
+        { id: 'B', text: "Costodiaphragmatic recess" },
+        { id: 'C', text: "Suprapleural membrane" },
+        { id: 'D', text: "Pulmonary ligament" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 36,
+    text: "Which nerve provides sensory innervation to the visceral pleura of the lungs?",
+    options: [
+        { id: 'A', text: "Phrenic nerve" },
+        { id: 'B', text: "Vagus nerve" },
+        { id: 'C', text: "Intercostal nerves" },
+        { id: 'D', text: "Sympathetic trunk" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 37,
+    text: "A thoracentesis (pleural tap) is ideally performed in which intercostal space to avoid injury to the neurovascular bundle?",
+    options: [
+        { id: 'A', text: "5th space at midaxillary line" },
+        { id: 'B', text: "8th space near costal margin" },
+        { id: 'C', text: "6th space near scapular line" },
+        { id: 'D', text: "2nd space at midclavicular line" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 38,
+    text: "Which of the following changes occurs in the lungs when a patient stands up from supine position?",
+    options: [
+        { id: 'A', text: "V/Q ratio decreases at apex" },
+        { id: 'B', text: "Perfusion increases at apex" },
+        { id: 'C', text: "Ventilation decreases at base" },
+        { id: 'D', text: "Perfusion heterogeneity increases" }
+    ],
+    correctAnswer: 'D'
+},
+{
+    id: 39,
+    text: "Which cell type in the alveoli is responsible for surfactant production?",
+    options: [
+        { id: 'A', text: "Type I pneumocyte" },
+        { id: 'B', text: "Type II pneumocyte" },
+        { id: 'C', text: "Alveolar macrophage" },
+        { id: 'D', text: "Clara cell" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 40,
+    text: "The pulmonary ligament is formed by reflection of which pleural layers?",
+    options: [
+        { id: 'A', text: "Parietal pleura only" },
+        { id: 'B', text: "Visceral pleura only" },
+        { id: 'C', text: "Both visceral and parietal pleura" },
+        { id: 'D', text: "Fibrous pericardium and parietal pleura" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 41,
+    text: "Which chamber of the heart receives oxygenated blood from the pulmonary veins?",
+    options: [
+        { id: 'A', text: "Right atrium" },
+        { id: 'B', text: "Right ventricle" },
+        { id: 'C', text: "Left atrium" },
+        { id: 'D', text: "Left ventricle" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 42,
+    text: "Which valve guards the opening between the left atrium and left ventricle?",
+    options: [
+        { id: 'A', text: "Tricuspid valve" },
+        { id: 'B', text: "Mitral valve" },
+        { id: 'C', text: "Pulmonary valve" },
+        { id: 'D', text: "Aortic valve" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 43,
+    text: "Which artery is the first branch of the ascending aorta?",
+    options: [
+        { id: 'A', text: "Left coronary artery" },
+        { id: 'B', text: "Right coronary artery" },
+        { id: 'C', text: "Brachiocephalic trunk" },
+        { id: 'D', text: "Circumflex artery" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 44,
+    text: "The atrioventricular (AV) node is located in which part of the heart?",
+    options: [
+        { id: 'A', text: "Interatrial septum near opening of coronary sinus" },
+        { id: 'B', text: "Posterior free wall of left atrium" },
+        { id: 'C', text: "Septomarginal trabecula of right ventricle" },
+        { id: 'D', text: "Left atrial appendage" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 45,
+    text: "Which structure prevents prolapse of the AV valves during ventricular contraction?",
+    options: [
+        { id: 'A', text: "Chordae tendineae" },
+        { id: 'B', text: "Papillary muscles" },
+        { id: 'C', text: "Trabeculae carneae" },
+        { id: 'D', text: "Septomarginal trabecula" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 46,
+    text: "Which vein drains the posterior aspect of the left ventricle and empties into the coronary sinus?",
+    options: [
+        { id: 'A', text: "Great cardiac vein" },
+        { id: 'B', text: "Middle cardiac vein" },
+        { id: 'C', text: "Small cardiac vein" },
+        { id: 'D', text: "Oblique vein of left atrium" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 47,
+    text: "Which coronary artery branch travels in the anterior interventricular sulcus?",
+    options: [
+        { id: 'A', text: "Right marginal branch" },
+        { id: 'B', text: "Posterior interventricular branch" },
+        { id: 'C', text: "Anterior interventricular branch" },
+        { id: 'D', text: "Circumflex branch" }
+    ],
+    correctAnswer: 'C'
+},
+{
+    id: 48,
+    text: "During embryologic development, the truncus arteriosus gives rise to which heart structures?",
+    options: [
+        { id: 'A', text: "Left and right ventricles" },
+        { id: 'B', text: "Aortic and pulmonary trunks" },
+        { id: 'C', text: "Atria and AV valves" },
+        { id: 'D', text: "AV septum" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 49,
+    text: "Which conduction pathway carries impulses from the AV node to the interventricular septum?",
+    options: [
+        { id: 'A', text: "Bundle of His" },
+        { id: 'B', text: "Purkinje fibers" },
+        { id: 'C', text: "Right bundle branch" },
+        { id: 'D', text: "Left bundle branch" }
+    ],
+    correctAnswer: 'A'
+},
+{
+    id: 50,
+    text: "Which part of the pericardium contains pain fibers carried by the phrenic nerve?",
+    options: [
+        { id: 'A', text: "Visceral pericardium" },
+        { id: 'B', text: "Fibrous pericardium" },
+        { id: 'C', text: "Serous parietal pericardium" },
+        { id: 'D', text: "Epicardium" }
+    ],
+    correctAnswer: 'B'
+},
+{
+    id: 51,
+    text: "Which structure separates the atria from the ventricles?",
+    options: [
+        { id: 'A', text: "Interatrial septum" },
+        { id: 'B', text: "Interventricular septum" },
+        { id: 'C', text: "Coronary sulcus" },
+        { id: 'D', text: "Atrioventricular septum" }
+    ],
+    correctAnswer: 'C'
+}
+                // Additional questions would go here...
+            ]
+        };
+
+        // Application state
+        const state = {
+            currentQuestion: 0,
+            score: 0,
+            timeLeft: testData.duration,
+            timerInterval: null,
+            answers: [],
+            startTime: null,
+            endTime: null,
+            soundEnabled: true
+        };
+
+        // DOM elements
+        const elements = {
+            startScreen: document.getElementById('start-screen'),
+            testScreen: document.getElementById('test-screen'),
+            resultScreen: document.getElementById('result-screen'),
+            startBtn: document.getElementById('start-btn'),
+            restartBtn: document.getElementById('restart-btn'),
+            timer: document.getElementById('timer'),
+            questionContainer: document.getElementById('question-container'),
+            questionText: document.getElementById('question-text'),
+            optionsGrid: document.getElementById('options-grid'),
+            currentQ: document.getElementById('current-q'),
+            totalQ: document.getElementById('total-q'),
+            progressBar: document.getElementById('progress-bar'),
+            correctAnswers: document.getElementById('correct-answers'),
+            wrongAnswers: document.getElementById('wrong-answers'),
+            wrongPercentage: document.getElementById('wrong-percentage'),
+            finalScore: document.getElementById('final-score'),
+            grade: document.getElementById('grade'),
+            timeTaken: document.getElementById('time-taken'),
+            currentDate: document.getElementById('current-date'),
+            soundToggle: document.getElementById('sound-toggle'),
+            correctSound: document.getElementById('correct-sound'),
+            wrongSound: document.getElementById('wrong-sound'),
+            completeSound: document.getElementById('complete-sound'),
+            notification: document.getElementById('notification')
+        };
+
+        // Initialize the application
+        function initApp() {
+            createParticles();
+            elements.totalQ.textContent = testData.questions.length;
+            elements.startBtn.addEventListener('click', startTest);
+            elements.restartBtn.addEventListener('click', restartTest);
+            elements.soundToggle.addEventListener('click', toggleSound);
+            
+            // Set current date
+            const now = new Date();
+            elements.currentDate.textContent = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
+            
+            // Adjust layout for mobile
+            adjustForMobile();
+        }
+
+        // Toggle sound
+        function toggleSound() {
+            state.soundEnabled = !state.soundEnabled;
+            const icon = elements.soundToggle.querySelector('i');
+            if (state.soundEnabled) {
+                icon.classList.remove('fa-volume-mute');
+                icon.classList.add('fa-volume-up');
+                elements.soundToggle.style.color = 'var(--light)';
+            } else {
+                icon.classList.remove('fa-volume-up');
+                icon.classList.add('fa-volume-mute');
+                elements.soundToggle.style.color = 'var(--gray)';
+            }
+        }
+
+        // Play sound effect
+        function playSound(type) {
+            if (!state.soundEnabled) return;
+            
+            try {
+                const sound = elements[`${type}Sound`];
+                sound.currentTime = 0;
+                sound.play();
+            } catch (e) {
+                console.log("Sound error:", e);
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            elements.notification.textContent = message;
+            elements.notification.style.display = 'block';
+            setTimeout(() => {
+                elements.notification.style.display = 'none';
+            }, 2500);
+        }
+
+        // Adjust layout for mobile devices
+        function adjustForMobile() {
+            if (window.innerWidth < 768) {
+                // Mobile-specific adjustments
+                document.body.style.padding = "8px";
+                document.querySelector('.container').style.padding = "8px";
+            }
+        }
+
+        // Start the test
+        function startTest() {
+            state.currentQuestion = 0;
+            state.score = 0;
+            state.timeLeft = testData.duration;
+            state.answers = [];
+            state.startTime = new Date();
+            
+            // Hide start screen and show test screen
+            elements.startScreen.classList.add('hidden');
+            elements.testScreen.classList.remove('hidden');
+            elements.resultScreen.classList.add('hidden');
+            
+            // Start the timer
+            startTimer();
+            
+            // Show the first question
+            showQuestion(state.currentQuestion);
+        }
+
+        // Start the timer
+        function startTimer() {
+            updateTimerDisplay();
+            
+            state.timerInterval = setInterval(() => {
+                state.timeLeft--;
+                updateTimerDisplay();
+                
+                if (state.timeLeft <= 0) {
+                    clearInterval(state.timerInterval);
+                    finishTest();
                 }
-            }
+            }, 1000);
+        }
 
-            // جلب أوقات الصلاة
-            async function fetchPrayerTimes() {
-                try {
-                    const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Riyadh&country=SA&method=4&timezone=Asia/Riyadh');
-                    const data = await response.json();
-                    if (data.code === 200) {
-                        prayerTimesData = data.data.timings;
-                        updatePrayerTimesUI();
-                        calculateNextPrayer();
-                    }
-                } catch (error) {
-                    console.error("خطأ في جلب الأوقات:", error);
-                    displayError();
-                }
+        // Update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(state.timeLeft / 60);
+            const seconds = state.timeLeft % 60;
+            elements.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Change color when time is running low
+            if (state.timeLeft <= 120) { // Last 2 minutes
+                elements.timer.classList.add('warning');
+                elements.timer.classList.remove('danger');
+            } else if (state.timeLeft <= 30) { // Last 30 seconds
+                elements.timer.classList.remove('warning');
+                elements.timer.classList.add('danger');
+            } else {
+                elements.timer.classList.remove('warning', 'danger');
             }
+        }
 
-            // تحديث واجهة أوقات الصلاة
-            function updatePrayerTimesUI() {
-                const prayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-                prayers.forEach(prayer => {
-                    const adhanEl = document.getElementById(`${prayer.toLowerCase()}-adhan`);
-                    const iqamaEl = document.getElementById(`${prayer.toLowerCase()}-iqama`);
-                    const time = prayerTimesData[prayer] || '--:--';
+        // Show question
+        function showQuestion(index) {
+            const question = testData.questions[index];
+            
+            // Update current question number
+            elements.currentQ.textContent = index + 1;
+            
+            // Update progress bar
+            const progress = ((index) / testData.questions.length) * 100;
+            elements.progressBar.style.width = `${progress}%`;
+            
+            // Display question text
+            elements.questionText.textContent = question.text;
+            
+            // Clear previous options
+            elements.optionsGrid.innerHTML = '';
+            
+            // Add new options
+            question.options.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.dataset.id = option.id;
+                
+                optionElement.innerHTML = `
+                    <div class="letter">${option.id}</div>
+                    <div class="text">${option.text}</div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(option.id));
+                elements.optionsGrid.appendChild(optionElement);
+            });
+        }
+
+        // Select an option
+        function selectOption(selectedId) {
+            const currentQuestion = testData.questions[state.currentQuestion];
+            const isCorrect = selectedId === currentQuestion.correctAnswer;
+            
+            // Save the answer
+            state.answers.push({
+                questionId: currentQuestion.id,
+                selectedOption: selectedId,
+                isCorrect: isCorrect
+            });
+            
+            // Increase score if correct
+            if (isCorrect) {
+                state.score++;
+                showNotification('Correct Answer!');
+                playSound('correct');
+            } else {
+                showNotification('Incorrect Answer');
+                playSound('wrong');
+            }
+            
+            // Add effects to the selected option
+            const selectedOption = document.querySelector(`.option[data-id="${selectedId}"]`);
+            selectedOption.classList.add('selected');
+            selectedOption.classList.add(isCorrect ? 'correct' : 'wrong');
+            
+            // Highlight correct answer if wrong
+            if (!isCorrect) {
+                const correctOption = document.querySelector(`.option[data-id="${currentQuestion.correctAnswer}"]`);
+                correctOption.classList.add('correct');
+            }
+            
+            // Move to next question after a short delay
+            setTimeout(() => {
+                // Add fade-out effect to current question
+                elements.questionContainer.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    // Move to next question or finish test
+                    state.currentQuestion++;
                     
-                    if (adhanEl) adhanEl.textContent = formatTime(time);
-                    if (iqamaEl && IQAMA_OFFSETS[prayer]) {
-                        iqamaEl.textContent = calculateIqamaTime(time, prayer);
+                    if (state.currentQuestion < testData.questions.length) {
+                        elements.questionContainer.classList.remove('fade-out');
+                        showQuestion(state.currentQuestion);
+                    } else {
+                        finishTest();
                     }
-                });
-            }
+                }, 500);
+            }, 1500);
+        }
 
-            // تنسيق الوقت (12 ساعة)
-            function formatTime(time24) {
-                if (!time24.includes(':')) return '--:--';
-                const [hours24, minutes] = time24.split(':');
-                const hours = parseInt(hours24);
-                const ampm = hours >= 12 ? 'م' : 'ص';
-                const hours12 = hours % 12 || 12;
-                return `${hours12}:${minutes} ${ampm}`;
-            }
+        // Finish the test
+        function finishTest() {
+            clearInterval(state.timerInterval);
+            state.endTime = new Date();
+            playSound('complete');
+            
+            // Hide test screen and show results screen
+            elements.testScreen.classList.add('hidden');
+            elements.resultScreen.classList.remove('hidden');
+            
+            // Calculate time taken
+            const timeTaken = Math.floor((state.endTime - state.startTime) / 1000);
+            const minutes = Math.floor(timeTaken / 60);
+            const seconds = timeTaken % 60;
+            elements.timeTaken.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Display results
+            elements.correctAnswers.textContent = state.score;
+            elements.wrongAnswers.textContent = testData.questions.length - state.score;
+            
+            const wrongPercentage = ((testData.questions.length - state.score) / testData.questions.length * 100).toFixed(1);
+            elements.wrongPercentage.textContent = `${wrongPercentage}%`;
+            
+            const finalScore = (state.score / testData.questions.length * 100).toFixed(1);
+            elements.finalScore.textContent = `${finalScore}%`;
+            
+            // Determine grade
+            let grade;
+            if (finalScore >= 90) grade = "Excellent";
+            else if (finalScore >= 80) grade = "Very Good";
+            else if (finalScore >= 70) grade = "Good";
+            else if (finalScore >= 60) grade = "Pass";
+            else grade = "Fail";
+            elements.grade.textContent = grade;
+            
+            // Update total questions count
+            elements.totalQuestions.textContent = testData.questions.length;
+        }
 
-            // حساب وقت الإقامة
-            function calculateIqamaTime(adhanTime, prayerKey) {
-                const [hours, minutes] = adhanTime.split(':').map(Number);
-                const totalMinutes = (hours * 60 + minutes) + IQAMA_OFFSETS[prayerKey];
-                const iqamaHours = Math.floor(totalMinutes / 60) % 24;
-                const iqamaMinutes = totalMinutes % 60;
-                return formatTime(`${iqamaHours}:${iqamaMinutes}`);
-            }
+        // Restart the test
+        function restartTest() {
+            elements.resultScreen.classList.add('hidden');
+            startTest();
+        }
 
-            // حساب الصلاة القادمة
-            function calculateNextPrayer() {
-                const now = new Date();
-                const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-                let nextPrayerTime = null;
-                let nextPrayerName = null;
-
-                prayers.forEach(prayer => {
-                    const time = prayerTimesData[prayer];
-                    if (!time) return;
-                    const [hours, minutes] = time.split(':').map(Number);
-                    const prayerDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
-                    if (prayerDate > now && (!nextPrayerTime || prayerDate < nextPrayerTime)) {
-                        nextPrayerTime = prayerDate;
-                        nextPrayerName = prayer;
-                    }
-                });
-
-                if (nextPrayerTime) {
-                    startCountdown(nextPrayerTime, nextPrayerName);
-                } else {
-                    countdownLabelEl.textContent = "لا توجد صلاة قادمة";
-                    countdownTimerEl.textContent = "--:--:--";
-                }
-            }
-
-            // تشغيل العد التنازلي
-            function startCountdown(targetTime, prayerName) {
-                if (countdownInterval) clearInterval(countdownInterval);
-                countdownInterval = setInterval(() => {
-                    const now = new Date();
-                    const diff = targetTime - now;
-                    
-                    if (diff <= 0) {
-                        clearInterval(countdownInterval);
-                        countdownLabelEl.textContent = `حان وقت ${PRAYER_NAMES_AR[prayerName]}`;
-                        countdownTimerEl.textContent = "00:00:00";
-                        fetchPrayerTimes();
-                        return;
-                    }
-
-                    const hours = Math.floor(diff / 3600000);
-                    const minutes = Math.floor((diff % 3600000) / 60000);
-                    const seconds = Math.floor((diff % 60000) / 1000);
-                    countdownTimerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                }, 1000);
-            }
-
-            // التهيئة
-            function initialize() {
-                updateClock();
-                fetchHijriDate();
-                fetchPrayerTimes();
-                setInterval(updateClock, 1000);
-                setInterval(fetchPrayerTimes, 3600000); // تحديث كل ساعة
-            }
-
-            initialize();
-        });
+        // Initialize the app when the page loads
+        window.addEventListener('DOMContentLoaded', initApp);
+        
+        // Adjust layout when window is resized
+        window.addEventListener('resize', adjustForMobile);
     </script>
 </body>
 </html>
