@@ -1,1729 +1,1237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Anatomy Test - Dr. Osama</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #8a2be2;
-            --secondary: #20b2aa;
-            --dark: #0f172a;
-            --darker: #0a0e1a;
-            --light: #f8fafc;
-            --gray: #94a3b8;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --glow: 0 0 15px rgba(138, 43, 226, 0.5);
-        }
-
-        body {
-            background: linear-gradient(135deg, var(--darker), var(--dark));
-            color: var(--light);
-            min-height: 100vh;
-            padding: 15px;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Background effects */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(138, 43, 226, 0.15);
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 15px;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-            padding: 15px;
-            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        header h1 {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            margin-bottom: 8px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 10px rgba(138, 43, 226, 0.2);
-            animation: textGlow 2s infinite alternate;
-        }
-
-        @keyframes textGlow {
-            from { text-shadow: 0 0 5px rgba(138, 43, 226, 0.3); }
-            to { text-shadow: 0 0 15px rgba(138, 43, 226, 0.7); }
-        }
-
-        header p {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: var(--gray);
-        }
-
-        .logo {
-            font-size: clamp(2.5rem, 5vw, 3rem);
-            margin-bottom: 15px;
-            color: var(--primary);
-            text-shadow: var(--glow);
-            animation: pulse 3s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .screen {
-            background: rgba(15, 23, 42, 0.85);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            transition: var(--transition);
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            opacity: 0.7;
-        }
-
-        .screen.hidden {
-            display: none;
-            opacity: 0;
-            transform: scale(0.95);
-        }
-
-        .timer-container {
-            background: rgba(15, 23, 42, 0.9);
-            border-radius: 50px;
-            padding: 8px 16px;
-            margin-bottom: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid var(--primary);
-            box-shadow: var(--glow);
-            animation: pulseBorder 2s infinite alternate;
-        }
-
-        @keyframes pulseBorder {
-            from { box-shadow: 0 0 10px rgba(138, 43, 226, 0.3); }
-            to { box-shadow: 0 0 15px rgba(138, 43, 226, 0.6); }
-        }
-
-        .timer {
-            font-size: clamp(1.5rem, 3vw, 1.8rem);
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            color: var(--warning);
-            text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
-        }
-
-        .question-container {
-            margin: 15px 0;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .question-number {
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
-            color: var(--gray);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .question-number::before {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-        }
-
-        .question-text {
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            background: rgba(138, 43, 226, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-            box-shadow: inset 0 0 10px rgba(138, 43, 226, 0.2);
-            position: relative;
-        }
-
-        .question-text::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 20px;
-            width: 40px;
-            height: 3px;
-            background: var(--secondary);
-            border-radius: 3px;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .option {
-            background: rgba(30, 41, 59, 0.7);
-            border: 2px solid rgba(138, 43, 226, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(138, 43, 226, 0.1));
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .option:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: var(--glow);
-            background: rgba(138, 43, 226, 0.15);
-        }
-
-        .option:hover::before {
-            opacity: 1;
-        }
-
-        .option:active {
-            transform: translateY(0);
-        }
-
-        .option .letter {
-            width: clamp(35px, 8vw, 40px);
-            height: clamp(35px, 8vw, 40px);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--dark);
-            font-weight: bold;
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
-            flex-shrink: 0;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: clamp(12px, 3vw, 15px) clamp(30px, 7vw, 40px);
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 15px;
-            font-weight: bold;
-            box-shadow: var(--glow);
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -60%;
-            width: 20px;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(25deg);
-            transition: all 0.6s;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.8);
-        }
-
-        .btn:hover::after {
-            left: 120%;
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .start-screen {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 450px;
-        }
-
-        .start-screen h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 15px;
-            color: var(--secondary);
-            text-shadow: 0 0 10px rgba(32, 178, 170, 0.4);
-        }
-
-        .instructions {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            line-height: 1.7;
-            border: 1px solid rgba(32, 178, 170, 0.3);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            box-shadow: inset 0 0 15px rgba(32, 178, 170, 0.2);
-            position: relative;
-        }
-
-        .instructions::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .instructions ul {
-            list-style: none;
-            padding: 0 15px;
-            text-align: left;
-        }
-
-        .instructions li {
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 22px;
-        }
-
-        .instructions li:before {
-            content: "•";
-            color: var(--secondary);
-            font-size: 1.3rem;
-            position: absolute;
-            left: 0;
-            top: -3px;
-        }
-
-        .result-screen {
-            text-align: center;
-        }
-
-        .result-icon {
-            font-size: clamp(4rem, 10vw, 6rem);
-            color: var(--success);
-            margin: 25px 0;
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .stat-card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 12px;
-            padding: 15px;
-            border-top: 4px solid var(--primary);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-card:nth-child(2) {
-            border-top-color: var(--secondary);
-        }
-
-        .stat-card:nth-child(3) {
-            border-top-color: var(--success);
-        }
-
-        .stat-card:nth-child(4) {
-            border-top-color: var(--warning);
-        }
-
-        .stat-value {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: bold;
-            margin: 8px 0;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .certificate {
-            background: rgba(138, 43, 226, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 25px;
-            border: 2px dashed var(--primary);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .certificate::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238a2be2' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.1;
-            z-index: -1;
-        }
-
-        .signature {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(138, 43, 226, 0.3);
-        }
-
-        .signature div {
-            text-align: center;
-        }
-
-        .signature .name {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-            color: var(--secondary);
-            margin-top: 8px;
-            font-family: 'Dancing Script', cursive;
-        }
-
-        .progress-container {
-            margin: 15px 0;
-            background: rgba(30, 41, 59, 0.7);
-            height: 12px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 8px;
-            transition: width 0.5s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: skewX(-20deg);
-            animation: progressGlow 1.5s infinite;
-        }
-
-        @keyframes progressGlow {
-            0% { left: -20px; }
-            100% { left: 100%; }
-        }
-
-        /* Mobile-specific styles */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            .screen {
-                padding: 15px;
-                min-height: 350px;
-            }
-            
-            .options-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .question-text {
-                padding: 12px;
-                margin-bottom: 20px;
-            }
-            
-            .option {
-                padding: 12px;
-            }
-            
-            .instructions {
-                padding: 15px;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .signature {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-
-        /* Very small screens */
-        @media (max-width: 480px) {
-            .timer-container {
-                padding: 6px 12px;
-            }
-            
-            .question-text {
-                font-size: 1.1rem;
-            }
-            
-            .option .text {
-                font-size: 0.95rem;
-            }
-            
-            .certificate {
-                padding: 15px;
-            }
-        }
-
-        /* Effects when selecting answer */
-        .option.selected {
-            background: rgba(138, 43, 226, 0.25);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
-        }
-
-        .option.correct {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: var(--success);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .option.wrong {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: var(--danger);
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
-        }
-
-        /* Transition effects between questions */
-        .question-container {
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .question-container.fade-out {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        /* Timer effects */
-        .timer.warning {
-            color: var(--warning);
-            animation: blink 1s infinite;
-        }
-
-        .timer.danger {
-            color: var(--danger);
-            animation: blink 0.5s infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0.7; }
-        }
-        
-        /* New Audio Controls */
-        .audio-controls {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-        
-        .sound-btn {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid var(--primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light);
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--glow);
-        }
-        
-        .sound-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        /* Floating notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--success);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            display: none;
-            animation: slideIn 0.3s forwards, fadeOut 0.5s forwards 2s;
-        }
-        
-        @keyframes slideIn {
-            from { top: -50px; opacity: 0; }
-            to { top: 20px; opacity: 1; }
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AL-KEFAYAH | منصة التصميم الهندسي</title>
+<style>
+:root{
+  --bg:#171a1f;
+  --bar:#1c1f24;
+  --bar2:#22262c;
+  --panel:#1c1f24;
+  --panel-2:#20242a;
+  --field:#141619;
+  --line:#2b3037;
+  --line-2:#343a42;
+  --txt:#dfe3e9;
+  --txt2:#8f97a4;
+  --txt3:#666d7a;
+  --gold:#d9a441;
+  --gold-2:#f0c96c;
+  --blue:#3f7ce0;
+  --blue-soft:rgba(63,124,224,.14);
+  --active-bg:rgba(63,124,224,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Cairo','Segoe UI',Tahoma,sans-serif;
+  background:var(--bg);color:var(--txt);font-size:12.5px;
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#2f353d;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#3a424b}
+
+.app{display:flex;flex-direction:column;height:100vh;width:100vw}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.topbar{
+  height:50px;flex:0 0 50px;display:flex;align-items:center;gap:14px;
+  padding:0 14px;background:var(--bar);border-bottom:1px solid var(--line);
+  direction:ltr;
+}
+.logo{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.logo svg{width:28px;height:28px}
+.logo-txt{font-weight:800;font-size:15px;letter-spacing:.5px;color:var(--gold)}
+.logo-txt span{color:#fff}
+
+.search-box{
+  flex:1;max-width:620px;margin:0 auto;position:relative;
+}
+.search-box input{
+  width:100%;height:32px;border-radius:6px;border:1px solid var(--line);
+  background:var(--field);color:var(--txt);padding:0 34px 0 12px;
+  font-family:inherit;font-size:12px;outline:none;transition:.15s;
+  direction:rtl;text-align:right;
+}
+.search-box input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(217,164,65,.12)}
+.search-box input::placeholder{color:var(--txt3)}
+.search-box .s-ico{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  width:14px;height:14px;color:var(--txt3);pointer-events:none;
+}
+
+.top-right{display:flex;align-items:center;gap:8px;flex:0 0 auto;direction:rtl}
+.project-pill{
+  display:flex;align-items:center;gap:8px;background:var(--bar2);
+  border:1px solid var(--line);padding:5px 12px;border-radius:6px;
+  font-size:12px;cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.project-pill:hover{border-color:var(--line-2)}
+.project-pill svg{width:11px;height:11px;color:var(--txt2)}
+.icon-btn{
+  width:30px;height:30px;border-radius:6px;display:grid;place-items:center;
+  color:var(--txt2);cursor:pointer;background:transparent;border:none;
+  transition:.15s;position:relative;flex:0 0 auto;
+}
+.icon-btn:hover{background:var(--bar2);color:var(--txt)}
+.icon-btn svg{width:16px;height:16px}
+.icon-btn .notif-dot{
+  position:absolute;top:5px;right:6px;width:6px;height:6px;
+  background:var(--gold);border-radius:50%;border:1.5px solid var(--bar);
+}
+.icon-btn.active{background:var(--blue-soft);color:var(--gold-2)}
+.avatar{
+  width:29px;height:29px;border-radius:50%;
+  background:linear-gradient(135deg,#39404b,#282e38);
+  display:grid;place-items:center;font-size:10.5px;font-weight:700;
+  color:var(--gold-2);border:1px solid var(--line-2);
+  cursor:pointer;flex:0 0 auto;
+}
+
+/* ============================================================
+   TAB BAR
+   ============================================================ */
+.tabbar{
+  height:34px;flex:0 0 34px;display:flex;align-items:stretch;
+  padding:0 10px;background:var(--bar);border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none;
+}
+.tabbar::-webkit-scrollbar{display:none}
+.tab-item{
+  padding:0 16px;display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--txt2);cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  transition:.15s;position:relative;
+}
+.tab-item:hover{color:var(--txt)}
+.tab-item.active{
+  color:var(--blue);
+  border-bottom-color:var(--blue);
+  background:var(--active-bg);
+}
+.tab-item svg{width:13px;height:13px}
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+.toolbar{
+  height:70px;flex:0 0 70px;display:flex;align-items:stretch;
+  padding:0 6px;background:var(--bar);border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:thin;direction:rtl;
+}
+.tgroup{
+  display:flex;align-items:center;gap:1px;padding:0 4px;
+  border-inline-start:1px solid var(--line);flex:0 0 auto;
+}
+.tgroup:first-child{border-inline-start:none}
+.tbtn{
+  width:56px;height:60px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;
+  border-radius:5px;cursor:pointer;color:var(--txt2);
+  border:1px solid transparent;transition:.12s;user-select:none;
+  flex:0 0 auto;
+}
+.tbtn svg{width:19px;height:19px}
+.tbtn span{font-size:9.5px;line-height:1;white-space:nowrap}
+.tbtn:hover{background:var(--bar2);color:var(--txt)}
+.tbtn.active{
+  background:rgba(217,164,65,.12);color:var(--gold-2);
+  border-color:rgba(217,164,65,.28);
+}
+.tbtn:active{transform:scale(.94)}
+
+/* ============================================================
+   MAIN
+   ============================================================ */
+.main{flex:1;display:flex;min-height:0;direction:rtl}
+
+/* -------- Viewport -------- */
+.viewport{
+  flex:1;display:flex;flex-direction:column;min-width:0;
+  background:#121519;
+}
+.doctabs{
+  height:34px;flex:0 0 34px;display:flex;align-items:flex-end;gap:2px;
+  padding:0 8px;background:#14171b;border-bottom:1px solid var(--line);
+  overflow-x:auto;direction:rtl;
+}
+.doctabs::-webkit-scrollbar{display:none}
+.doctab{
+  display:flex;align-items:center;gap:8px;padding:0 14px;height:28px;
+  font-size:11.5px;color:var(--txt3);cursor:pointer;
+  border-radius:5px 5px 0 0;white-space:nowrap;transition:.15s;
+  border:1px solid transparent;border-bottom:none;
+}
+.doctab:hover{color:var(--txt2);background:#1a1d22}
+.doctab.active{
+  background:var(--panel-2);color:var(--txt);
+  border-color:var(--line);
+}
+.doctab .x{
+  opacity:.5;font-size:13px;line-height:1;margin-inline-start:2px;
+}
+.doctab .x:hover{opacity:1;color:#e05252}
+
+.stage{flex:1;position:relative;min-height:0;overflow:hidden}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+#c:active{cursor:grabbing}
+
+.view-cube{
+  position:absolute;top:12px;right:12px;width:80px;height:80px;
+  cursor:pointer;user-select:none;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.55));
+}
+.view-cube svg{width:100%;height:100%;display:block}
+.view-cube .fc{cursor:pointer}
+.view-cube .fc polygon{transition:.15s}
+.view-cube .fc:hover polygon{fill:#4a5462}
+.view-cube text{
+  font-family:'Cairo',sans-serif;font-weight:600;
+  font-size:10px;pointer-events:none;
+}
+
+.axis-gizmo{
+  position:absolute;bottom:14px;right:16px;width:64px;height:64px;
+  pointer-events:none;opacity:.95;
+}
+.axis-gizmo svg{width:100%;height:100%;overflow:visible}
+.axis-gizmo text{
+  font-size:9px;font-weight:700;font-family:'Cairo',sans-serif;
+}
+
+.hint{
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  background:rgba(20,23,28,.85);border:1px solid var(--line);
+  color:var(--txt2);padding:6px 14px;border-radius:16px;
+  font-size:11px;backdrop-filter:blur(8px);pointer-events:none;
+  transition:opacity .6s;white-space:nowrap;
+}
+.hint.hide{opacity:0}
+
+/* -------- Sidebar -------- */
+.sidebar{
+  width:296px;flex:0 0 296px;background:var(--panel);
+  border-inline-end:1px solid var(--line);
+  display:flex;flex-direction:column;min-height:0;
+}
+.panel-title{
+  height:40px;flex:0 0 40px;display:flex;align-items:center;gap:8px;
+  padding:0 14px;border-bottom:1px solid var(--line);
+}
+.panel-title .info-i{
+  width:15px;height:15px;border-radius:50%;
+  border:1.3px solid var(--txt3);color:var(--txt3);
+  display:grid;place-items:center;font-size:9px;
+  font-weight:700;font-style:italic;
+}
+.panel-title h3{font-size:12px;font-weight:600;color:var(--txt)}
+.sidebar-content{flex:1;overflow-y:auto;padding-bottom:20px}
+
+.el-card{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.012);
+}
+.el-thumb{
+  width:36px;height:36px;border-radius:5px;
+  background:linear-gradient(135deg,#f0e8d5,#c0b49c);
+  border:1px solid #4d4842;flex:0 0 auto;position:relative;overflow:hidden;
+}
+.el-thumb::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,rgba(255,255,255,.5) 0%,transparent 42%,rgba(0,0,0,.22) 100%);
+}
+.el-info{flex:1;min-width:0}
+.el-name{font-size:12px;font-weight:600;color:var(--txt)}
+.el-sub{font-size:10.5px;color:var(--txt3);margin-top:2px}
+.el-link{color:var(--txt3);cursor:pointer;padding:4px;border-radius:4px;transition:.15s}
+.el-link:hover{color:var(--gold);background:rgba(217,164,65,.1)}
+.el-link svg{width:14px;height:14px;display:block}
+
+.section{border-bottom:1px solid var(--line)}
+.sec-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;cursor:pointer;user-select:none;transition:.13s;
+}
+.sec-head:hover{background:rgba(255,255,255,.02)}
+.sec-head h4{
+  font-size:11.5px;font-weight:600;color:var(--txt2);
+  letter-spacing:.15px;
+}
+.sec-head .chev{
+  width:10px;height:10px;color:var(--txt3);
+  transition:transform .2s;
+}
+.section.open .sec-head .chev{transform:rotate(-90deg)}
+.section.open .sec-body{display:block}
+.sec-body{display:none;padding:4px 14px 13px}
+
+.row{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.row:last-child{margin-bottom:0}
+.row > label{
+  font-size:11.5px;color:var(--txt2);flex:0 0 78px;
+}
+.field{
+  flex:1;display:flex;align-items:center;background:var(--field);
+  border:1px solid var(--line);border-radius:5px;height:28px;
+  padding:0 8px;gap:6px;transition:.13s;min-width:0;
+}
+.field:focus-within{
+  border-color:var(--gold);
+  box-shadow:0 0 0 2px rgba(217,164,65,.1);
+}
+.field input,.field select{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--txt);font-family:inherit;font-size:11.5px;
+  width:100%;min-width:0;cursor:pointer;
+}
+.field input[readonly]{cursor:default;color:var(--txt2)}
+.field input[type=number]{cursor:text;direction:ltr;text-align:left}
+.field .unit{font-size:10.5px;color:var(--txt3);flex:0 0 auto}
+.field select{appearance:none;-webkit-appearance:none;padding-inline-end:12px}
+.field .sel-arrow{
+  width:8px;height:8px;color:var(--txt3);pointer-events:none;
+  flex:0 0 auto;
+}
+.swatch{
+  width:20px;height:20px;border-radius:4px;border:1px solid var(--line-2);
+  flex:0 0 auto;position:relative;overflow:hidden;cursor:pointer;
+}
+.swatch input{
+  position:absolute;inset:-6px;width:200%;height:200%;
+  border:none;padding:0;cursor:pointer;opacity:0;
+}
+
+.tgl-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;
+}
+.tgl-row:last-child{margin-bottom:0}
+.tgl-row span{font-size:11.5px;color:var(--txt2)}
+.tgl{
+  width:32px;height:18px;border-radius:9px;background:#2a3038;
+  position:relative;cursor:pointer;transition:.2s;flex:0 0 auto;
+  border:1px solid #383f48;
+}
+.tgl::after{
+  content:'';position:absolute;top:1.5px;right:1.5px;
+  width:13px;height:13px;border-radius:50%;
+  background:#7a8391;transition:.2s;
+}
+.tgl.on{
+  background:rgba(63,124,224,.3);
+  border-color:rgba(63,124,224,.6);
+}
+.tgl.on::after{
+  right:16px;background:#5d9dff;
+  box-shadow:0 0 7px rgba(93,157,255,.7);
+}
+
+/* ============================================================
+   STATUS BAR
+   ============================================================ */
+.statusbar{
+  height:30px;flex:0 0 30px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 10px;
+  background:var(--bar);border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--txt2);gap:10px;
+}
+.sb-group{display:flex;align-items:center;gap:2px}
+.sb-btn{
+  display:flex;align-items:center;gap:5px;padding:3px 9px;
+  border-radius:5px;cursor:pointer;transition:.13s;white-space:nowrap;
+  color:var(--txt2);background:transparent;border:none;
+  font-family:inherit;font-size:11.5px;
+}
+.sb-btn:hover{background:var(--bar2);color:var(--txt)}
+.sb-btn svg{width:12px;height:12px}
+.sb-btn.active{
+  background:var(--blue-soft);color:#6ba3ff;
+}
+.sb-sep{width:1px;height:14px;background:var(--line);margin:0 3px}
+.coords{
+  font-variant-numeric:tabular-nums;letter-spacing:.2px;
+  color:var(--txt3);font-size:11px;direction:ltr;
+}
+.coords b{color:var(--txt2);font-weight:600}
+</style>
 </head>
 <body>
-    <!-- Animated background particles -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- Audio Controls -->
-    <div class="audio-controls">
-        <div class="sound-btn" id="sound-toggle">
-            <i class="fas fa-volume-up"></i>
-        </div>
-    </div>
-    
-    <!-- Notification -->
-    <div class="notification" id="notification">Correct Answer!</div>
 
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-heartbeat"></i>
-            </div>
-            <h1>Dr. Osama / Anatomy Test</h1>
-            <p>NO NO NO GPT</p>
-        </header>
+<div class="app">
 
-        <!-- Start screen -->
-        <div class="screen start-screen" id="start-screen">
-            <h2>Dont cheat Ill kill you</h2>
-            
-            <div class="instructions">
-                <h3><i class="fas fa-info-circle"></i> Test Instructions:</h3>
-                <ul>
-                    <li>The test contains 50 questions on human anatomy</li>
-                    <li>You have 30 minutes to complete all questions</li>
-                    <li>Choose the correct answer from options (A, B, C, D)</li>
-                    <li>After selecting an answer, you'll move to the next question</li>
-                    <li>You cannot return to previous questions</li>
-                    <li>At the end, you'll see your results with a certificate</li>
-                    <li>New: Sound effects and visual enhancements!</li>
-                    <li>nooooooooooo ai!</li>
-                </ul>
-            </div>
-            
-            <button class="btn" id="start-btn">
-                Start Test Now <i class="fas fa-play"></i>
-            </button>
-        </div>
-
-        <!-- Test screen -->
-        <div class="screen hidden" id="test-screen">
-            <div class="timer-container">
-                <i class="fas fa-clock"></i>
-                <div class="timer" id="timer">30:00</div>
-            </div>
-            
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-            </div>
-            
-            <div class="question-container" id="question-container">
-                <div class="question-number">Question <span id="current-q">1</span> of <span id="total-q">50</span></div>
-                <div class="question-text" id="question-text">Loading first question...</div>
-                
-                <div class="options-grid" id="options-grid">
-                    <!-- Options will be added dynamically -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Results screen -->
-        <div class="screen hidden result-screen" id="result-screen">
-            <div class="result-icon">
-                <i class="fas fa-trophy"></i>
-            </div>
-            
-            <h2>Congratulations! You've completed the test</h2>
-            <p>Here are your final results:</p>
-            
-            <div class="stats">
-                <div class="stat-card">
-                    <div>Correct Answers</div>
-                    <div class="stat-value" id="correct-answers">0</div>
-                    <div>out of <span id="total-questions">50</span></div>
-                </div>
-                
-                <div class="stat-card">
-                    <div>Wrong Answers</div>
-                    <div class="stat-value" id="wrong-answers">0</div>
-                    <div>Error Rate: <span id="wrong-percentage">0%</span></div>
-                </div>
-                
-                <div class="stat-card">
-                    <div>Final Score</div>
-                    <div class="stat-value" id="final-score">0%</div>
-                    <div>Grade: <span id="grade">-</span></div>
-                </div>
-                
-                <div class="stat-card">
-                    <div>Time Taken</div>
-                    <div class="stat-value" id="time-taken">00:00</div>
-                    <div>out of 30 minutes</div>
-                </div>
-            </div>
-            
-            <div class="certificate">
-                <h3><i class="fas fa-certificate"></i> Certificate of Completion</h3>
-                <p>This certificate is awarded for successfully completing the test with a perfect score</p>
-                <p>From Dr. Osama Al-Mobramj</p>
-                <p>Take a screenshot, congratulations</p>
-                
-                <div class="signature">
-                    <div>
-                        <div>Signature</div>
-                        <div class="name">Dr. Osama</div>
-                    </div>
-                    <div>
-                        <div>Date</div>
-                        <div class="name" id="current-date"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="btn" id="restart-btn">
-                Restart Test <i class="fas fa-redo"></i>
-            </button>
-        </div>
+  <!-- ========================================================
+       TOP BAR
+       ======================================================== -->
+  <header class="topbar">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" fill="none">
+        <path d="M3 14.5L16 3.5l13 11" stroke="#d9a441" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.2 16.5V28h19.6V16.5" stroke="#d9a441" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12.5 28v-8.5h7V28" stroke="#d9a441" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-txt">AL-KEFA<span>YAH</span></div>
     </div>
 
-    <!-- Audio elements -->
-    <audio id="correct-sound" preload="auto">
-        <source src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
-    </audio>
-    <audio id="wrong-sound" preload="auto">
-        <source src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
-    </audio>
-    <audio id="complete-sound" preload="auto">
-        <source src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
-    </audio>
+    <div class="search-box">
+      <svg class="s-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" placeholder="بحث عن أداة أو أمر..." />
+    </div>
 
-    <script>
-        // Create background particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = window.innerWidth < 768 ? 25 : 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // Random size
-                const size = Math.random() * 20 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Random position
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.bottom = `-${size}px`;
-                
-                // Random animation time
-                const duration = Math.random() * 20 + 15;
-                const delay = Math.random() * 5;
-                particle.style.animationDuration = `${duration}s`;
-                particle.style.animationDelay = `${delay}s`;
-                
-                // Random color
-                const hue = Math.random() * 60 + 260; // Purple hues
-                particle.style.backgroundColor = `hsla(${hue}, 70%, 60%, 0.2)`;
-                
-                container.appendChild(particle);
-            }
-        }
+    <div class="top-right">
+      <div class="project-pill">
+        <span>مشروع فيلا - الدور الأرضي</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
 
-        // Test data (all 50 questions in English)
-        const testData = {
-            title: "Human Anatomy Test",
-            duration: 30 * 60, // 30 minutes in seconds
-            questions: [
-{
-    id: 1,
-    text: "How many pairs of true ribs are present in the human thoracic cage?",
-    options: [
-        { id: 'A', text: "5" },
-        { id: 'B', text: "7" },
-        { id: 'C', text: "2" },
-        { id: 'D', text: "12" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 2,
-    text: "Which structure forms the anterior attachment of the costal cartilages of ribs 1–7?",
-    options: [
-        { id: 'A', text: "Xiphoid process" },
-        { id: 'B', text: "Manubrium" },
-        { id: 'C', text: "Body of sternum" },
-        { id: 'D', text: "Clavicle" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 3,
-    text: "Which of the following ribs is considered a 'floating rib'?",
-    options: [
-        { id: 'A', text: "10th rib" },
-        { id: 'B', text: "11th rib" },
-        { id: 'C', text: "8th rib" },
-        { id: 'D', text: "7th rib" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 4,
-    text: "The sternal angle (Angle of Louis) corresponds to which vertebral level?",
-    options: [
-        { id: 'A', text: "T3–T4" },
-        { id: 'B', text: "T4–T5" },
-        { id: 'C', text: "T5–T6" },
-        { id: 'D', text: "T2–T3" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 5,
-    text: "Which muscle occupies the space between adjacent ribs and assists in respiration?",
-    options: [
-        { id: 'A', text: "External oblique" },
-        { id: 'B', text: "External intercostal" },
-        { id: 'C', text: "Subcostalis" },
-        { id: 'D', text: "Transversus thoracis" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 6,
-    text: "In a typical rib, the tubercle articulates with which structure on the vertebra?",
-    options: [
-        { id: 'A', text: "Transverse process" },
-        { id: 'B', text: "Spinous process" },
-        { id: 'C', text: "Vertebral body" },
-        { id: 'D', text: "Pedicle" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 7,
-    text: "Which landmark marks the inferior border of the second rib on the sternum?",
-    options: [
-        { id: 'A', text: "Jugular notch" },
-        { id: 'B', text: "Xiphoid process" },
-        { id: 'C', text: "Sternal angle" },
-        { id: 'D', text: "Clavicular notch" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 8,
-    text: "Damage to the intercostal neurovascular bundle is most likely to occur in which location on a rib?",
-    options: [
-        { id: 'A', text: "Along the superior border" },
-        { id: 'B', text: "At the costal groove" },
-        { id: 'C', text: "At the tubercle" },
-        { id: 'D', text: "At the head" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 9,
-    text: "Which of the following ribs articulates directly with the body of the sternum at its own costal cartilage only?",
-    options: [
-        { id: 'A', text: "6th rib" },
-        { id: 'B', text: "8th rib" },
-        { id: 'C', text: "9th rib" },
-        { id: 'D', text: "7th rib" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 10,
-    text: "A flail chest results from fractures of multiple consecutive ribs in two or more places. This most commonly affects which region?",
-    options: [
-        { id: 'A', text: "Intercostal space 1–2" },
-        { id: 'B', text: "Costovertebral junction" },
-        { id: 'C', text: "Midaxillary line" },
-        { id: 'D', text: "Sternal border" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 11,
-    text: "Which cervical vertebra is characterized by the presence of a bifid spinous process and transverse foramina?",
-    options: [
-        { id: 'A', text: "C1" },
-        { id: 'B', text: "C2" },
-        { id: 'C', text: "C7" },
-        { id: 'D', text: "C3" }
-    ],
-    correctAnswer: 'D'
-},
-{
-    id: 12,
-    text: "The anterior boundary of the posterior triangle of the neck is formed by which muscle?",
-    options: [
-        { id: 'A', text: "Sternocleidomastoid" },
-        { id: 'B', text: "Trapezius" },
-        { id: 'C', text: "Scaleneus anterior" },
-        { id: 'D', text: "Omohyoid" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 13,
-    text: "Which nerve runs between the anterior and middle scalene muscles?",
-    options: [
-        { id: 'A', text: "Spinal accessory nerve" },
-        { id: 'B', text: "Phrenic nerve" },
-        { id: 'C', text: "Brachial plexus roots" },
-        { id: 'D', text: "Vagus nerve" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 14,
-    text: "The hyoid bone is located at the level of which cervical vertebra?",
-    options: [
-        { id: 'A', text: "C2" },
-        { id: 'B', text: "C3" },
-        { id: 'C', text: "C4" },
-        { id: 'D', text: "C5" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 15,
-    text: "The carotid bifurcation (common carotid into internal and external) is typically located opposite which vertebral level?",
-    options: [
-        { id: 'A', text: "C2–C3" },
-        { id: 'B', text: "C4" },
-        { id: 'C', text: "C5" },
-        { id: 'D', text: "C6" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 16,
-    text: "Which muscle forms the floor of the posterior triangle of the neck?",
-    options: [
-        { id: 'A', text: "Splenius capitis" },
-        { id: 'B', text: "Levator scapulae" },
-        { id: 'C', text: "Sternohyoid" },
-        { id: 'D', text: "Scalenus posterior" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 17,
-    text: "Which of the following is NOT a content of the carotid sheath?",
-    options: [
-        { id: 'A', text: "Internal jugular vein" },
-        { id: 'B', text: "Vagus nerve" },
-        { id: 'C', text: "Common carotid artery" },
-        { id: 'D', text: "Hypoglossal nerve" }
-    ],
-    correctAnswer: 'D'
-},
-{
-    id: 18,
-    text: "Damage to the spinal accessory nerve in the posterior triangle would most directly affect which movement?",
-    options: [
-        { id: 'A', text: "Neck flexion" },
-        { id: 'B', text: "Shoulder elevation" },
-        { id: 'C', text: "Head rotation to the opposite side" },
-        { id: 'D', text: "Jaw opening" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 19,
-    text: "Which vein is formed by the union of the retromandibular and posterior auricular veins and drains into the external jugular vein?",
-    options: [
-        { id: 'A', text: "Facial vein" },
-        { id: 'B', text: "Superior thyroid vein" },
-        { id: 'C', text: "Anterior jugular vein" },
-        { id: 'D', text: "Maxillary vein" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 20,
-    text: "A clinical test for the integrity of the cervical plexus at C3–C4 involves which reflex?",
-    options: [
-        { id: 'A', text: "Jaw jerk" },
-        { id: 'B', text: "Cremasteric reflex" },
-        { id: 'C', text: "Cervical cutaneous field sensation" },
-        { id: 'D', text: "Blink reflex" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 21,
-    text: "Which muscle has its origin on the transverse processes of C3–C6 and inserts on the first rib?",
-    options: [
-        { id: 'A', text: "Scalenus anterior" },
-        { id: 'B', text: "Scalenus medius" },
-        { id: 'C', text: "Scalenus posterior" },
-        { id: 'D', text: "Levator scapulae" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 22,
-    text: "Which muscle’s contraction elevates the ribs during forced inspiration and attaches to the sternum, xiphoid process, and costal cartilages?",
-    options: [
-        { id: 'A', text: "Transversus thoracis" },
-        { id: 'B', text: "Serratus posterior inferior" },
-        { id: 'C', text: "Serratus anterior" },
-        { id: 'D', text: "Pectoralis minor" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 23,
-    text: "Which muscle lies deep to the clavicle and attaches to the first rib, also assisting in stabilization of the clavicle?",
-    options: [
-        { id: 'A', text: "Subclavius" },
-        { id: 'B', text: "Subscapularis" },
-        { id: 'C', text: "Pectoralis minor" },
-        { id: 'D', text: "Pectoralis major" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 24,
-    text: "The diaphragm is innervated by which nerve?",
-    options: [
-        { id: 'A', text: "Intercostal nerve T12" },
-        { id: 'B', text: "Phrenic nerve C3–C5" },
-        { id: 'C', text: "Vagus nerve CN X" },
-        { id: 'D', text: "Sympathetic trunk" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 25,
-    text: "Which muscle forms the floor of the axilla and helps draw the scapula anteriorly and inferiorly?",
-    options: [
-        { id: 'A', text: "Latissimus dorsi" },
-        { id: 'B', text: "Serratus anterior" },
-        { id: 'C', text: "Pectoralis major" },
-        { id: 'D', text: "Subscapularis" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 26,
-    text: "Which muscle originates from the posterior tubercles of transverse processes of C1–C4 and inserts on the medial border of the scapula?",
-    options: [
-        { id: 'A', text: "Rhomboid minor" },
-        { id: 'B', text: "Levator scapulae" },
-        { id: 'C', text: "Trapezius" },
-        { id: 'D', text: "Splenius capitis" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 27,
-    text: "Which of the following muscles is innervated by the dorsal scapular nerve?",
-    options: [
-        { id: 'A', text: "Rhomboid major" },
-        { id: 'B', text: "Latissimus dorsi" },
-        { id: 'C', text: "Serratus posterior superior" },
-        { id: 'D', text: "Levator scapulae" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 28,
-    text: "Which muscle’s fibers run between adjacent ribs and are primarily responsible for depressing the ribs during forced expiration?",
-    options: [
-        { id: 'A', text: "Internal intercostal" },
-        { id: 'B', text: "External intercostal" },
-        { id: 'C', text: "Innermost intercostal" },
-        { id: 'D', text: "Subcostalis" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 29,
-    text: "Which muscle attaches to the sternum, clavicle, and mastoid process, and its unilateral contraction flexes and rotates the head?",
-    options: [
-        { id: 'A', text: "Trapezius" },
-        { id: 'B', text: "Sternocleidomastoid" },
-        { id: 'C', text: "Omohyoid" },
-        { id: 'D', text: "Digastric" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 30,
-    text: "An injury to the long thoracic nerve would most directly affect which muscle?",
-    options: [
-        { id: 'A', text: "Latissimus dorsi" },
-        { id: 'B', text: "Serratus anterior" },
-        { id: 'C', text: "Rhomboid major" },
-        { id: 'D', text: "Pectoralis minor" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 31,
-    text: "Which lobe of the right lung is most posterior when viewing the patient in anatomical position?",
-    options: [
-        { id: 'A', text: "Superior lobe" },
-        { id: 'B', text: "Middle lobe" },
-        { id: 'C', text: "Inferior lobe" },
-        { id: 'D', text: "Cardiac notch" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 32,
-    text: "Which bronchopulmonary segment is located at the apex of the right lung’s superior lobe?",
-    options: [
-        { id: 'A', text: "Apical segment" },
-        { id: 'B', text: "Posterior segment" },
-        { id: 'C', text: "Anterior segment" },
-        { id: 'D', text: "Superior segment" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 33,
-    text: "The horizontal fissure separates which two lobes of the right lung?",
-    options: [
-        { id: 'A', text: "Superior and inferior lobes" },
-        { id: 'B', text: "Middle and inferior lobes" },
-        { id: 'C', text: "Superior and middle lobes" },
-        { id: 'D', text: "Middle lobe and cardiac notch" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 34,
-    text: "Which artery provides the bronchial circulation to the left lung?",
-    options: [
-        { id: 'A', text: "Posterior intercostal artery" },
-        { id: 'B', text: "Bronchial artery from the thoracic aorta" },
-        { id: 'C', text: "Superior pulmonary artery" },
-        { id: 'D', text: "Inferior pulmonary vein" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 35,
-    text: "Which pleural recess extends between the costal pleura and diaphragmatic pleura at the midclavicular line?",
-    options: [
-        { id: 'A', text: "Costomediastinal recess" },
-        { id: 'B', text: "Costodiaphragmatic recess" },
-        { id: 'C', text: "Suprapleural membrane" },
-        { id: 'D', text: "Pulmonary ligament" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 36,
-    text: "Which nerve provides sensory innervation to the visceral pleura of the lungs?",
-    options: [
-        { id: 'A', text: "Phrenic nerve" },
-        { id: 'B', text: "Vagus nerve" },
-        { id: 'C', text: "Intercostal nerves" },
-        { id: 'D', text: "Sympathetic trunk" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 37,
-    text: "A thoracentesis (pleural tap) is ideally performed in which intercostal space to avoid injury to the neurovascular bundle?",
-    options: [
-        { id: 'A', text: "5th space at midaxillary line" },
-        { id: 'B', text: "8th space near costal margin" },
-        { id: 'C', text: "6th space near scapular line" },
-        { id: 'D', text: "2nd space at midclavicular line" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 38,
-    text: "Which of the following changes occurs in the lungs when a patient stands up from supine position?",
-    options: [
-        { id: 'A', text: "V/Q ratio decreases at apex" },
-        { id: 'B', text: "Perfusion increases at apex" },
-        { id: 'C', text: "Ventilation decreases at base" },
-        { id: 'D', text: "Perfusion heterogeneity increases" }
-    ],
-    correctAnswer: 'D'
-},
-{
-    id: 39,
-    text: "Which cell type in the alveoli is responsible for surfactant production?",
-    options: [
-        { id: 'A', text: "Type I pneumocyte" },
-        { id: 'B', text: "Type II pneumocyte" },
-        { id: 'C', text: "Alveolar macrophage" },
-        { id: 'D', text: "Clara cell" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 40,
-    text: "The pulmonary ligament is formed by reflection of which pleural layers?",
-    options: [
-        { id: 'A', text: "Parietal pleura only" },
-        { id: 'B', text: "Visceral pleura only" },
-        { id: 'C', text: "Both visceral and parietal pleura" },
-        { id: 'D', text: "Fibrous pericardium and parietal pleura" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 41,
-    text: "Which chamber of the heart receives oxygenated blood from the pulmonary veins?",
-    options: [
-        { id: 'A', text: "Right atrium" },
-        { id: 'B', text: "Right ventricle" },
-        { id: 'C', text: "Left atrium" },
-        { id: 'D', text: "Left ventricle" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 42,
-    text: "Which valve guards the opening between the left atrium and left ventricle?",
-    options: [
-        { id: 'A', text: "Tricuspid valve" },
-        { id: 'B', text: "Mitral valve" },
-        { id: 'C', text: "Pulmonary valve" },
-        { id: 'D', text: "Aortic valve" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 43,
-    text: "Which artery is the first branch of the ascending aorta?",
-    options: [
-        { id: 'A', text: "Left coronary artery" },
-        { id: 'B', text: "Right coronary artery" },
-        { id: 'C', text: "Brachiocephalic trunk" },
-        { id: 'D', text: "Circumflex artery" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 44,
-    text: "The atrioventricular (AV) node is located in which part of the heart?",
-    options: [
-        { id: 'A', text: "Interatrial septum near opening of coronary sinus" },
-        { id: 'B', text: "Posterior free wall of left atrium" },
-        { id: 'C', text: "Septomarginal trabecula of right ventricle" },
-        { id: 'D', text: "Left atrial appendage" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 45,
-    text: "Which structure prevents prolapse of the AV valves during ventricular contraction?",
-    options: [
-        { id: 'A', text: "Chordae tendineae" },
-        { id: 'B', text: "Papillary muscles" },
-        { id: 'C', text: "Trabeculae carneae" },
-        { id: 'D', text: "Septomarginal trabecula" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 46,
-    text: "Which vein drains the posterior aspect of the left ventricle and empties into the coronary sinus?",
-    options: [
-        { id: 'A', text: "Great cardiac vein" },
-        { id: 'B', text: "Middle cardiac vein" },
-        { id: 'C', text: "Small cardiac vein" },
-        { id: 'D', text: "Oblique vein of left atrium" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 47,
-    text: "Which coronary artery branch travels in the anterior interventricular sulcus?",
-    options: [
-        { id: 'A', text: "Right marginal branch" },
-        { id: 'B', text: "Posterior interventricular branch" },
-        { id: 'C', text: "Anterior interventricular branch" },
-        { id: 'D', text: "Circumflex branch" }
-    ],
-    correctAnswer: 'C'
-},
-{
-    id: 48,
-    text: "During embryologic development, the truncus arteriosus gives rise to which heart structures?",
-    options: [
-        { id: 'A', text: "Left and right ventricles" },
-        { id: 'B', text: "Aortic and pulmonary trunks" },
-        { id: 'C', text: "Atria and AV valves" },
-        { id: 'D', text: "AV septum" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 49,
-    text: "Which conduction pathway carries impulses from the AV node to the interventricular septum?",
-    options: [
-        { id: 'A', text: "Bundle of His" },
-        { id: 'B', text: "Purkinje fibers" },
-        { id: 'C', text: "Right bundle branch" },
-        { id: 'D', text: "Left bundle branch" }
-    ],
-    correctAnswer: 'A'
-},
-{
-    id: 50,
-    text: "Which part of the pericardium contains pain fibers carried by the phrenic nerve?",
-    options: [
-        { id: 'A', text: "Visceral pericardium" },
-        { id: 'B', text: "Fibrous pericardium" },
-        { id: 'C', text: "Serous parietal pericardium" },
-        { id: 'D', text: "Epicardium" }
-    ],
-    correctAnswer: 'B'
-},
-{
-    id: 51,
-    text: "Which structure separates the atria from the ventricles?",
-    options: [
-        { id: 'A', text: "Interatrial septum" },
-        { id: 'B', text: "Interventricular septum" },
-        { id: 'C', text: "Coronary sulcus" },
-        { id: 'D', text: "Atrioventricular septum" }
-    ],
-    correctAnswer: 'C'
+      <!-- زر ملء الشاشة (بديل F11) -->
+      <button class="icon-btn" id="fsBtn" title="ملء الشاشة (F11)">
+        <svg id="fsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn" title="المزامنة السحابية">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.5 19a4.5 4.5 0 0 1-.4-8.98A6 6 0 0 1 17.7 9.2A4 4 0 0 1 17.5 19z"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn" title="الإشعارات">
+        <span class="notif-dot"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/>
+          <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+        </svg>
+      </button>
+
+      <div class="avatar">م.ع</div>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       TAB BAR — الترتيب من اليمين (RTL): إدارة → الرئيسية
+       ======================================================== -->
+  <nav class="tabbar">
+    <div class="tab-item">إدارة</div>
+    <div class="tab-item">تحليل</div>
+    <div class="tab-item">عرض</div>
+    <div class="tab-item">ميكانيكا</div>
+    <div class="tab-item">سباكة</div>
+    <div class="tab-item">كهرباء</div>
+    <div class="tab-item">إنشائي</div>
+    <div class="tab-item">تعديل</div>
+    <div class="tab-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10.5L12 3l9 7.5"/>
+        <path d="M5 9.5V21h14V9.5"/>
+        <path d="M10 21v-6h4v6"/>
+      </svg>
+      الرئيسية
+    </div>
+  </nav>
+
+  <!-- ========================================================
+       TOOLBAR — الترتيب من اليمين (RTL)
+       ======================================================== -->
+  <div class="toolbar" id="toolbar"></div>
+
+  <!-- ========================================================
+       MAIN
+       ======================================================== -->
+  <div class="main">
+
+    <!-- =============== VIEWPORT (يظهر يمين) =============== -->
+    <section class="viewport">
+
+      <div class="doctabs">
+        <div class="doctab">مخطط عام <span class="x">×</span></div>
+        <div class="doctab active">مخطط 2D - الدور الأرضي <span class="x">×</span></div>
+      </div>
+
+      <div class="stage" id="stage">
+        <canvas id="c"></canvas>
+
+        <!-- View Cube -->
+        <div class="view-cube" id="viewCube">
+          <svg viewBox="0 0 100 100">
+            <g class="fc" data-view="top">
+              <polygon points="50,7 88,29 50,51 12,29" fill="#3b434f" stroke="#606b7d" stroke-width="1"/>
+              <text x="50" y="34" text-anchor="middle" fill="#cdd4de">أعلى</text>
+            </g>
+            <g class="fc" data-view="iso">
+              <polygon points="12,29 50,51 50,93 12,71" fill="#2c333e" stroke="#606b7d" stroke-width="1"/>
+              <text x="31" y="66" text-anchor="middle" fill="#cdd4de">أمام</text>
+            </g>
+            <g class="fc" data-view="side">
+              <polygon points="88,29 50,51 50,93 88,71" fill="#353d49" stroke="#606b7d" stroke-width="1"/>
+              <text x="69" y="66" text-anchor="middle" fill="#cdd4de">يمين</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Axis Gizmo -->
+        <div class="axis-gizmo">
+          <svg viewBox="-42 -42 84 84">
+            <line id="axX" x1="0" y1="0" x2="24" y2="0" stroke="#e05252" stroke-width="2.2" stroke-linecap="round"/>
+            <line id="axY" x1="0" y1="0" x2="0" y2="24" stroke="#54c06a" stroke-width="2.2" stroke-linecap="round"/>
+            <line id="axZ" x1="0" y1="0" x2="0" y2="-24" stroke="#4a8cff" stroke-width="2.2" stroke-linecap="round"/>
+            <text id="txX" fill="#e05252" text-anchor="middle">X</text>
+            <text id="txY" fill="#54c06a" text-anchor="middle">Y</text>
+            <text id="txZ" fill="#4a8cff" text-anchor="middle">Z</text>
+          </svg>
+        </div>
+
+        <div class="hint" id="hint">اسحب للتدوير &nbsp;·&nbsp; عجلة الفأرة للتكبير &nbsp;·&nbsp; Shift + سحب للتحريك</div>
+      </div>
+    </section>
+
+    <!-- =============== SIDEBAR (يظهر يسار) =============== -->
+    <aside class="sidebar">
+
+      <div class="panel-title">
+        <div class="info-i">i</div>
+        <h3>خصائص العنصر</h3>
+      </div>
+
+      <div class="sidebar-content">
+
+        <!-- بطاقة العنصر -->
+        <div class="el-card">
+          <div class="el-thumb"></div>
+          <div class="el-info">
+            <div class="el-name">جدار خارجي</div>
+            <div class="el-sub">كتلة خرسانية</div>
+          </div>
+          <div class="el-link" title="ربط">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1L11 5"/>
+              <path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1L13 19"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- الخصائص الأساسية -->
+        <div class="section open">
+          <div class="sec-head">
+            <h4>الخصائص الأساسية</h4>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </div>
+          <div class="sec-body">
+            <div class="row">
+              <label>الطبقة</label>
+              <div class="field">
+                <select><option>الجدران</option><option>الأرضيات</option><option>الأسقف</option><option>الأعمدة</option></select>
+                <svg class="sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <div class="row">
+              <label>اللون</label>
+              <div class="field">
+                <div class="swatch" style="background:#e6ded0"><input type="color" value="#e6ded0" data-bind="wallColor"></div>
+                <input type="text" value="E6DED0" readonly style="direction:ltr;text-align:left">
+              </div>
+            </div>
+            <div class="row">
+              <label>الارتفاع</label>
+              <div class="field"><input type="number" value="3.00" step="0.05" min="0.5" max="8" data-bind="wallH"><span class="unit">م</span></div>
+            </div>
+            <div class="row">
+              <label>عرض الجدار</label>
+              <div class="field"><input type="number" value="0.20" step="0.05" min="0.05" max="1" data-bind="wallT"><span class="unit">م</span></div>
+            </div>
+            <div class="row">
+              <label>الطول</label>
+              <div class="field"><input type="text" value="5.48" readonly><span class="unit">م</span></div>
+            </div>
+            <div class="row">
+              <label>السُمك</label>
+              <div class="field"><input type="text" value="0.20" readonly><span class="unit">م</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- التشطيب -->
+        <div class="section open">
+          <div class="sec-head">
+            <h4>التشطيب</h4>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </div>
+          <div class="sec-body">
+            <div class="row">
+              <label>نوع التشطيب</label>
+              <div class="field">
+                <select><option>خرسانة ملساء</option><option>دهان أكريليك</option><option>حجر طبيعي</option><option>رخام</option></select>
+                <svg class="sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <div class="row">
+              <label>اللون / الخامة</label>
+              <div class="field"><div class="swatch" style="background:#d9cfbc"><input type="color" value="#d9cfbc"></div></div>
+            </div>
+            <div class="row">
+              <label>توجيه الخامة</label>
+              <div class="field">
+                <select><option>خارجي</option><option>داخلي</option><option>مزدوج</option></select>
+                <svg class="sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- القيود والارتباطات -->
+        <div class="section open">
+          <div class="sec-head">
+            <h4>القيود والارتباطات</h4>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </div>
+          <div class="sec-body">
+            <div class="row">
+              <label>الطبقة المرتبطة</label>
+              <div class="field">
+                <select><option>الطوابق</option><option>المستويات</option><option>الشبكات</option></select>
+                <svg class="sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <div class="row">
+              <label>الحالة</label>
+              <div class="field">
+                <select><option>مقفل</option><option>مفتوح</option><option>مخفي</option></select>
+                <svg class="sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- إعدادات العرض -->
+        <div class="section open">
+          <div class="sec-head">
+            <h4>إعدادات العرض</h4>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </div>
+          <div class="sec-body">
+            <div class="tgl-row"><span>إظهار في العرض ثلاثي الأبعاد</span><div class="tgl on"></div></div>
+            <div class="tgl-row"><span>إظهار في المخطط</span><div class="tgl on"></div></div>
+            <div class="tgl-row"><span>قابل للتحرير</span><div class="tgl on"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+
+  <!-- ========================================================
+       STATUS BAR
+       ======================================================== -->
+  <footer class="statusbar">
+
+    <!-- اليمين: الإحداثيات + إعدادات العرض -->
+    <div class="sb-group">
+      <div class="coords">X: <b id="cx">12.432</b> &nbsp; Y: <b id="cy">8.765</b> &nbsp; Z: <b id="cz">0.000</b></div>
+      <div class="sb-sep"></div>
+      <button class="sb-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9v.1a2 2 0 1 1-2.8 2.8v-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3h-.1a2 2 0 1 1-2.8-2.8h.1A1.7 1.7 0 0 0 3 15a1.7 1.7 0 0 0-1.6-1H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 3 9a1.7 1.7 0 0 0-.3-1.9v-.1a2 2 0 1 1 2.8-2.8h.1A1.7 1.7 0 0 0 9 3a1.7 1.7 0 0 0 1-1.6V1a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 15 3a1.7 1.7 0 0 0 1.9-.3h.1a2 2 0 1 1 2.8 2.8v.1A1.7 1.7 0 0 0 21 9h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1z"/>
+        </svg>
+        <span>إعدادات العرض</span>
+      </button>
+    </div>
+
+    <!-- اليسار: الطبقات + 3D + المنظور -->
+    <div class="sb-group">
+      <button class="sb-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+          <path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>
+        </svg>
+        <span>الطبقات</span>
+      </button>
+      <div class="sb-sep"></div>
+      <button class="sb-btn active" id="btn3D">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+          <path d="M12 3l9 5-9 5-9-5z"/><path d="M12 12v9"/>
+        </svg>
+        <span>3D</span>
+      </button>
+      <button class="sb-btn" id="btnPlus">+</button>
+      <button class="sb-btn" id="btnFit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4"/>
+        </svg>
+        <span>المنظور</span>
+      </button>
+    </div>
+
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   1. أيقونات شريط الأدوات
+   ============================================================ */
+const ICONS = {
+  new:'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M12 11v6M9 14h6',
+  open:'M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z',
+  save:'M5 3h11l3 3v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8 3v6h8V3M7 14h10v7H7z',
+  saveas:'M5 3h11l3 3v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM12 11v7M9 15l3 3 3-3',
+  import:'M12 3v11M8 10l4 4 4-4M4 19h16',
+  export:'M12 14V3M8 7l4-4 4 4M4 19h16',
+  undo:'M9 14L4 9l5-5M4 9h9a7 7 0 0 1 0 14H8',
+  redo:'M15 14l5-5-5-5M20 9h-9a7 7 0 0 0 0 14h5',
+  edit:'M4 20h4L20 8l-4-4L4 16zM14 6l4 4',
+  move:'M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3',
+  rotate:'M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5',
+  scale:'M4 20L20 4M14 4h6v6M4 14v6h6',
+  copy:'M9 9h11v11H9zM5 15H4V4h11v1',
+  paste:'M9 4h6v3H9zM7 5H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2',
+  del:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',
+  cursor:'M5 3l14 8-6 1.5L10 19z',
+  draw:'M3 21l4-1 11-11-3-3L4 17zM14 6l3 3',
+  wall:'M3 6h18v4H3zM3 14h18v4H3zM9 6v4M15 14v4',
+  window:'M4 4h16v16H4zM12 4v16M4 12h16',
+  door:'M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M3 21h18M14 12h.01',
+  roof:'M2 12L12 3l10 9M5 10v11h14V10',
+  floor:'M3 5h18v14H3zM3 10h18M3 15h18M9 5v14M15 5v14',
+  stairs:'M3 20h4v-4h4v-4h4V8h4V4',
+  column:'M12 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 9v12M8 21h8',
+  level:'M12 3l9 5-9 5-9-5zM3 13l9 5 9-5',
+  dim:'M3 8v8M21 8v8M3 12h18M6 9l-3 3 3 3M18 9l3 3-3 3'
+};
+function icon(path){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+    stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
 }
-                // Additional questions would go here...
-            ]
-        };
 
-        // Application state
-        const state = {
-            currentQuestion: 0,
-            score: 0,
-            timeLeft: testData.duration,
-            timerInterval: null,
-            answers: [],
-            startTime: null,
-            endTime: null,
-            soundEnabled: true
-        };
+/* ============================================================
+   2. بناء شريط الأدوات — نفس ترتيب الصورة تماماً (من اليمين)
+   ============================================================ */
+const TOOLBAR_GROUPS = [
+  // المجموعة 1 (يمين): الملفات
+  [['new','جديد'],['open','فتح'],['save','حفظ'],['saveas','حفظ باسم'],['import','استيراد'],['export','تصدير']],
+  // المجموعة 2: تراجع/إعادة
+  [['undo','إلغاء'],['redo','إعادة']],
+  // المجموعة 3: تحرير
+  [['edit','تحرير'],['move','تحريك'],['rotate','تدوير'],['scale','مقاس'],['copy','نسخ'],['paste','لصق'],['del','حذف'],['cursor','تحديد']],
+  // المجموعة 4: الرسم والبناء
+  [['draw','رسم'],['wall','جدار'],['window','نافذة'],['door','باب'],['roof','سقف'],['floor','أرضية'],['stairs','درج'],['column','عمود'],['level','مستوى'],['dim','قياس']]
+];
 
-        // DOM elements
-        const elements = {
-            startScreen: document.getElementById('start-screen'),
-            testScreen: document.getElementById('test-screen'),
-            resultScreen: document.getElementById('result-screen'),
-            startBtn: document.getElementById('start-btn'),
-            restartBtn: document.getElementById('restart-btn'),
-            timer: document.getElementById('timer'),
-            questionContainer: document.getElementById('question-container'),
-            questionText: document.getElementById('question-text'),
-            optionsGrid: document.getElementById('options-grid'),
-            currentQ: document.getElementById('current-q'),
-            totalQ: document.getElementById('total-q'),
-            progressBar: document.getElementById('progress-bar'),
-            correctAnswers: document.getElementById('correct-answers'),
-            wrongAnswers: document.getElementById('wrong-answers'),
-            wrongPercentage: document.getElementById('wrong-percentage'),
-            finalScore: document.getElementById('final-score'),
-            grade: document.getElementById('grade'),
-            timeTaken: document.getElementById('time-taken'),
-            currentDate: document.getElementById('current-date'),
-            soundToggle: document.getElementById('sound-toggle'),
-            correctSound: document.getElementById('correct-sound'),
-            wrongSound: document.getElementById('wrong-sound'),
-            completeSound: document.getElementById('complete-sound'),
-            notification: document.getElementById('notification')
-        };
+const toolbarEl = document.getElementById('toolbar');
+TOOLBAR_GROUPS.forEach(group => {
+  const g = document.createElement('div');
+  g.className = 'tgroup';
+  group.forEach(([ic, label]) => {
+    const b = document.createElement('div');
+    b.className = 'tbtn' + (ic === 'wall' ? ' active' : '');
+    b.innerHTML = icon(ICONS[ic]) + `<span>${label}</span>`;
+    b.onclick = () => {
+      document.querySelectorAll('.tbtn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    };
+    g.appendChild(b);
+  });
+  toolbarEl.appendChild(g);
+});
 
-        // Initialize the application
-        function initApp() {
-            createParticles();
-            elements.totalQ.textContent = testData.questions.length;
-            elements.startBtn.addEventListener('click', startTest);
-            elements.restartBtn.addEventListener('click', restartTest);
-            elements.soundToggle.addEventListener('click', toggleSound);
-            
-            // Set current date
-            const now = new Date();
-            elements.currentDate.textContent = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
-            
-            // Adjust layout for mobile
-            adjustForMobile();
-        }
+/* ============================================================
+   3. تفاعلات عامة
+   ============================================================ */
+document.querySelectorAll('.tab-item').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab-item').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+});
+document.querySelectorAll('.sec-head').forEach(h =>
+  h.onclick = () => h.parentElement.classList.toggle('open'));
+document.querySelectorAll('.tgl').forEach(t =>
+  t.onclick = () => t.classList.toggle('on'));
 
-        // Toggle sound
-        function toggleSound() {
-            state.soundEnabled = !state.soundEnabled;
-            const icon = elements.soundToggle.querySelector('i');
-            if (state.soundEnabled) {
-                icon.classList.remove('fa-volume-mute');
-                icon.classList.add('fa-volume-up');
-                elements.soundToggle.style.color = 'var(--light)';
-            } else {
-                icon.classList.remove('fa-volume-up');
-                icon.classList.add('fa-volume-mute');
-                elements.soundToggle.style.color = 'var(--gray)';
-            }
-        }
+/* ============================================================
+   4. زر ملء الشاشة (بديل F11)
+   ============================================================ */
+const fsBtn = document.getElementById('fsBtn');
+const fsIcon = document.getElementById('fsIcon');
+const FS_ENTER = 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5';
+const FS_EXIT  = 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5';
 
-        // Play sound effect
-        function playSound(type) {
-            if (!state.soundEnabled) return;
-            
-            try {
-                const sound = elements[`${type}Sound`];
-                sound.currentTime = 0;
-                sound.play();
-            } catch (e) {
-                console.log("Sound error:", e);
-            }
-        }
+fsBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+});
+function syncFsIcon(){
+  const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  fsIcon.innerHTML = `<path d="${isFs ? FS_EXIT : FS_ENTER}"/>`;
+  fsBtn.title = isFs ? 'إنهاء ملء الشاشة (Esc)' : 'ملء الشاشة (F11)';
+}
+document.addEventListener('fullscreenchange', syncFsIcon);
+document.addEventListener('webkitfullscreenchange', syncFsIcon);
+// اختصار F11
+document.addEventListener('keydown', e => {
+  if (e.key === 'F11') { e.preventDefault(); fsBtn.click(); }
+});
 
-        // Show notification
-        function showNotification(message) {
-            elements.notification.textContent = message;
-            elements.notification.style.display = 'block';
-            setTimeout(() => {
-                elements.notification.style.display = 'none';
-            }, 2500);
-        }
+/* ============================================================
+   5. الحالة
+   ============================================================ */
+const state = {
+  yaw: -0.52,
+  pitch: 0.95,
+  zoom: 1,
+  panX: 0, panY: 0,
+  wallH: 3.0,
+  wallT: 0.20,
+  wallColor: '#e6ded0'
+};
+const CX = 11.5, CY = 9;
 
-        // Adjust layout for mobile devices
-        function adjustForMobile() {
-            if (window.innerWidth < 768) {
-                // Mobile-specific adjustments
-                document.body.style.padding = "8px";
-                document.querySelector('.container').style.padding = "8px";
-            }
-        }
+/* ============================================================
+   6. بناء المشهد ثلاثي الأبعاد — مطابق لتخطيط الصورة
+   ============================================================ */
+let boxes = [];
+function addBox(x, y, w, d, z0, z1, color) {
+  boxes.push({ x, y, w, d, z0, z1, color });
+}
+// جدار أفقي (يمتد في محور X)
+function H(x1, x2, y, h, t, z0, c) {
+  addBox(Math.min(x1,x2), y - t/2, Math.abs(x2-x1), t, z0, z0+h, c);
+}
+// جدار رأسي (يمتد في محور Y)
+function V(y1, y2, x, h, t, z0, c) {
+  addBox(x - t/2, Math.min(y1,y2), t, Math.abs(y2-y1), z0, z0+h, c);
+}
 
-        // Start the test
-        function startTest() {
-            state.currentQuestion = 0;
-            state.score = 0;
-            state.timeLeft = testData.duration;
-            state.answers = [];
-            state.startTime = new Date();
-            
-            // Hide start screen and show test screen
-            elements.startScreen.classList.add('hidden');
-            elements.testScreen.classList.remove('hidden');
-            elements.resultScreen.classList.add('hidden');
-            
-            // Start the timer
-            startTimer();
-            
-            // Show the first question
-            showQuestion(state.currentQuestion);
-        }
+function buildScene() {
+  boxes = [];
+  const WH = state.wallH;         // ارتفاع الجدار
+  const T = state.wallT;          // سماكة الجدار
+  const WC = state.wallColor;     // لون الجدار
+  const GH = 1.9;                 // ارتفاع سور الأرض
+  const WALL = '#e2b355';         // الجدار المحدد (ذهبي)
+  const BED = '#cbbca8';          // بيج السرير
+  const BED2 = '#b0a08c';
+  const SOFA = '#5f6f85';         // أزرق فحمي
+  const SOFA2 = '#8a7a63';
+  const WOOD = '#7a5f43';
+  const WHITE = '#eaeaea';
 
-        // Start the timer
-        function startTimer() {
-            updateTimerDisplay();
-            
-            state.timerInterval = setInterval(() => {
-                state.timeLeft--;
-                updateTimerDisplay();
-                
-                if (state.timeLeft <= 0) {
-                    clearInterval(state.timerInterval);
-                    finishTest();
-                }
-            }, 1000);
-        }
+  /* ---- الأرضيات ---- */
+  addBox(-0.5, -0.5, 25, 20, -0.6, -0.12, '#8b9971');       // عشب محيط
+  addBox(5, 1, 16, 11, -0.14, 0.02, '#d5cec0');              // بلاطة المبنى
+  addBox(6.5, 12, 3.5, 6, -0.11, -0.01, '#cfc9bc');          // ممر الدخول
+  addBox(17.5, 12, 4.5, 5.5, -0.10, 0.0, '#a8a49a');         // أرضية المرآب
 
-        // Update timer display
-        function updateTimerDisplay() {
-            const minutes = Math.floor(state.timeLeft / 60);
-            const seconds = state.timeLeft % 60;
-            elements.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Change color when time is running low
-            if (state.timeLeft <= 120) { // Last 2 minutes
-                elements.timer.classList.add('warning');
-                elements.timer.classList.remove('danger');
-            } else if (state.timeLeft <= 30) { // Last 30 seconds
-                elements.timer.classList.remove('warning');
-                elements.timer.classList.add('danger');
-            } else {
-                elements.timer.classList.remove('warning', 'danger');
-            }
-        }
+  /* ---- سور الأرض ---- */
+  H(0, 23, 0, GH, 0.22, 0, '#cdc4b1');
+  H(0, 10, 18, GH, 0.22, 0, '#cdc4b1');
+  H(13, 23, 18, GH, 0.22, 0, '#cdc4b1');
+  V(0, 18, 0, GH, 0.22, 0, '#cdc4b1');
+  V(0, 18, 23, GH, 0.22, 0, '#cdc4b1');
 
-        // Show question
-        function showQuestion(index) {
-            const question = testData.questions[index];
-            
-            // Update current question number
-            elements.currentQ.textContent = index + 1;
-            
-            // Update progress bar
-            const progress = ((index) / testData.questions.length) * 100;
-            elements.progressBar.style.width = `${progress}%`;
-            
-            // Display question text
-            elements.questionText.textContent = question.text;
-            
-            // Clear previous options
-            elements.optionsGrid.innerHTML = '';
-            
-            // Add new options
-            question.options.forEach(option => {
-                const optionElement = document.createElement('div');
-                optionElement.classList.add('option');
-                optionElement.dataset.id = option.id;
-                
-                optionElement.innerHTML = `
-                    <div class="letter">${option.id}</div>
-                    <div class="text">${option.text}</div>
-                `;
-                
-                optionElement.addEventListener('click', () => selectOption(option.id));
-                elements.optionsGrid.appendChild(optionElement);
-            });
-        }
+  /* ---- الجدار الخارجي للمبنى (يبدأ من 5,1 إلى 21,12) ---- */
+  // الجدار الأمامي (السفلي) مع فتحات الباب
+  H(5, 7.5, 12, WH, T, 0, WALL);
+  H(8.5, 17.5, 12, WH, T, 0, WALL);
+  H(20.5, 21, 12, WH, T, 0, WALL);
+  // الجدار الخلفي (العلوي)
+  H(5, 21, 1, WH, T, 0, WALL);
+  // الجدران الجانبية
+  V(1, 12, 5, WH, T, 0, WALL);
+  V(1, 12, 21, WH, T, 0, WALL);
 
-        // Select an option
-        function selectOption(selectedId) {
-            const currentQuestion = testData.questions[state.currentQuestion];
-            const isCorrect = selectedId === currentQuestion.correctAnswer;
-            
-            // Save the answer
-            state.answers.push({
-                questionId: currentQuestion.id,
-                selectedOption: selectedId,
-                isCorrect: isCorrect
-            });
-            
-            // Increase score if correct
-            if (isCorrect) {
-                state.score++;
-                showNotification('Correct Answer!');
-                playSound('correct');
-            } else {
-                showNotification('Incorrect Answer');
-                playSound('wrong');
-            }
-            
-            // Add effects to the selected option
-            const selectedOption = document.querySelector(`.option[data-id="${selectedId}"]`);
-            selectedOption.classList.add('selected');
-            selectedOption.classList.add(isCorrect ? 'correct' : 'wrong');
-            
-            // Highlight correct answer if wrong
-            if (!isCorrect) {
-                const correctOption = document.querySelector(`.option[data-id="${currentQuestion.correctAnswer}"]`);
-                correctOption.classList.add('correct');
-            }
-            
-            // Move to next question after a short delay
-            setTimeout(() => {
-                // Add fade-out effect to current question
-                elements.questionContainer.classList.add('fade-out');
-                
-                setTimeout(() => {
-                    // Move to next question or finish test
-                    state.currentQuestion++;
-                    
-                    if (state.currentQuestion < testData.questions.length) {
-                        elements.questionContainer.classList.remove('fade-out');
-                        showQuestion(state.currentQuestion);
-                    } else {
-                        finishTest();
-                    }
-                }, 500);
-            }, 1500);
-        }
+  /* ---- الجدران الداخلية ---- */
+  // الجدران الأفقية (Row 1: y=6)
+  H(5, 9.5, 6, WH, T);  H(10.5, 13, 6, WH, T);
+  H(14, 17.5, 6, WH, T); H(18.5, 21, 6, WH, T);
+  // الجدران الأفقية (Row 2: y=9)
+  H(5, 8, 9, WH, T); H(9, 12.5, 9, WH, T);
+  H(13.5, 17.5, 9, WH, T); H(18.5, 21, 9, WH, T);
 
-        // Finish the test
-        function finishTest() {
-            clearInterval(state.timerInterval);
-            state.endTime = new Date();
-            playSound('complete');
-            
-            // Hide test screen and show results screen
-            elements.testScreen.classList.add('hidden');
-            elements.resultScreen.classList.remove('hidden');
-            
-            // Calculate time taken
-            const timeTaken = Math.floor((state.endTime - state.startTime) / 1000);
-            const minutes = Math.floor(timeTaken / 60);
-            const seconds = timeTaken % 60;
-            elements.timeTaken.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Display results
-            elements.correctAnswers.textContent = state.score;
-            elements.wrongAnswers.textContent = testData.questions.length - state.score;
-            
-            const wrongPercentage = ((testData.questions.length - state.score) / testData.questions.length * 100).toFixed(1);
-            elements.wrongPercentage.textContent = `${wrongPercentage}%`;
-            
-            const finalScore = (state.score / testData.questions.length * 100).toFixed(1);
-            elements.finalScore.textContent = `${finalScore}%`;
-            
-            // Determine grade
-            let grade;
-            if (finalScore >= 90) grade = "Excellent";
-            else if (finalScore >= 80) grade = "Very Good";
-            else if (finalScore >= 70) grade = "Good";
-            else if (finalScore >= 60) grade = "Pass";
-            else grade = "Fail";
-            elements.grade.textContent = grade;
-            
-            // Update total questions count
-            elements.totalQuestions.textContent = testData.questions.length;
-        }
+  // الجدران الرأسية (أعمدة)
+  V(1, 6, 9.5, WH, T);   // بين الغرفة والمجلس
+  V(1, 6, 14, WH, T);    // بين المجلس وغرفة النوم
+  V(1, 6, 17.5, WH, T);  // بين غرفة النوم والمطبخ
+  V(6, 9, 10, WH, T);
+  V(6, 9, 13, WH, T);
+  V(6, 9, 17.5, WH, T);
+  V(9, 12, 9.5, WH, T);
+  V(9, 12, 13, WH, T);
+  V(9, 12, 17.5, WH, T);
+  V(6, 9, 12); V(6, 9, 15.5);
+  V(9, 12, 15.5);
 
-        // Restart the test
-        function restartTest() {
-            elements.resultScreen.classList.add('hidden');
-            startTest();
-        }
+  /* ================= الأثاث ================= */
 
-        // Initialize the app when the page loads
-        window.addEventListener('DOMContentLoaded', initApp);
-        
-        // Adjust layout when window is resized
-        window.addEventListener('resize', adjustForMobile);
-    </script>
+  // غرفة نوم (5, 1) - سرير كبير
+  addBox(5.4, 1.6, 2.2, 2.6, 0.05, 0.55, BED);
+  addBox(5.4, 1.6, 2.2, 0.35, 0.55, 0.9, BED2);
+  addBox(5.4, 4.4, 2.4, 0.65, 0.05, 2.05, WOOD);   // دولاب
+  addBox(7.8, 1.8, 0.65, 1.4, 0.05, 0.55, '#9a8b78');
+
+  // المجلس (9.5, 1) - كنبات
+  addBox(9.9, 1.5, 0.9, 3.4, 0.05, 0.8, SOFA2);
+  addBox(11.6, 4.6, 2.6, 0.9, 0.05, 0.8, SOFA2);
+  addBox(11.2, 2.4, 1.6, 1.4, 0.05, 0.45, WOOD);
+  addBox(9.9, 1.5, 3.4, 3.6, 0.001, 0.02, '#9c9280');
+
+  // غرفة نوم 2 (14, 1) - سرير
+  addBox(14.3, 1.6, 2.0, 2.4, 0.05, 0.55, BED);
+  addBox(14.3, 1.6, 2.0, 0.35, 0.55, 0.9, BED2);
+  addBox(14.3, 4.4, 2.2, 0.6, 0.05, 2.0, WOOD);
+  addBox(16.2, 2.0, 0.6, 1.2, 0.05, 0.5, '#9a8b78');
+
+  // المطبخ (17.5, 1) - خزائن
+  addBox(17.8, 1.4, 2.9, 0.7, 0.05, 0.9, '#cdc6b8');
+  addBox(19.9, 2.3, 0.7, 2.8, 0.05, 0.9, '#cdc6b8');
+  addBox(18.2, 4.7, 1.2, 0.9, 0.05, 0.9, '#cdc6b8');
+
+  // الحمامات (y=6..9)
+  addBox(5.4, 6.4, 1.4, 0.9, 0.05, 0.55, WHITE);
+  addBox(7.6, 7.8, 0.7, 0.7, 0.05, 0.9, WHITE);
+  addBox(14.4, 6.5, 1.5, 0.9, 0.05, 0.55, WHITE);
+  addBox(16.3, 8.0, 0.7, 0.7, 0.05, 0.9, WHITE);
+
+  // غرفة نوم 3 (5, 9) - سرير
+  addBox(5.4, 9.6, 2.0, 2.0, 0.05, 0.55, BED);
+  addBox(5.4, 9.6, 2.0, 0.35, 0.55, 0.9, BED2);
+  addBox(7.8, 9.6, 0.6, 1.2, 0.05, 0.5, '#9a8b78');
+
+  // غرفة نوم 4 (9.5, 9) - سرير
+  addBox(10.0, 9.6, 1.9, 2.0, 0.05, 0.55, BED);
+  addBox(10.0, 9.6, 1.9, 0.35, 0.55, 0.9, BED2);
+  addBox(12.3, 9.8, 0.6, 1.2, 0.05, 0.5, '#9a8b78');
+
+  // منطقة الاستقبال (14, 6) - كنبة
+  addBox(14.3, 7.0, 2.8, 1.0, 0.05, 0.8, SOFA);
+  addBox(14.3, 8.4, 1.4, 0.7, 0.05, 0.45, WOOD);
+
+  // منطقة الاستقبال الرئيسية (14, 9) - كنبات
+  addBox(14.2, 9.5, 0.9, 2.4, 0.05, 0.8, SOFA);
+  addBox(15.5, 9.5, 0.9, 2.4, 0.05, 0.8, SOFA);
+  addBox(14.6, 10.3, 1.7, 0.9, 0.05, 0.45, WOOD);
+
+  // المدخل (18, 9)
+  addBox(18.4, 10.4, 2.2, 0.5, 0.05, 0.9, WOOD);
+
+  /* ================= السيارات (في المرآب 17.5, 12 إلى 22, 17.5) ================= */
+  // سيارة داكنة
+  addBox(17.8, 12.6, 1.7, 4.0, 0.05, 0.65, '#3a3f47');
+  addBox(18.0, 13.5, 1.3, 1.9, 0.65, 1.25, '#2b3038');
+  // سيارة بيضاء
+  addBox(20.0, 12.6, 1.7, 4.0, 0.05, 0.65, '#dfe3e8');
+  addBox(20.2, 13.5, 1.3, 1.9, 0.65, 1.25, '#c3c8cf');
+
+  /* ================= المسبح (6, 13) - (11, 17) ================= */
+  addBox(5.8, 12.6, 5.4, 4.6, -0.16, -0.02, '#e6e1d6');
+  addBox(6.2, 13.0, 4.6, 3.8, -0.13, 0.02, '#2f8fb8');
+
+  /* ================= الحدائق والنباتات ================= */
+  // أشجار على الحدود
+  addBox(1.3, 2.5, 2.2, 2.2, 0.02, 1.5, '#5f7a4a');
+  addBox(2.0, 8.6, 1.9, 1.9, 0.02, 1.2, '#5f7a4a');
+  addBox(1.3, 14.5, 2.0, 2.0, 0.02, 1.4, '#5f7a4a');
+  // نباتات في الفناء
+  addBox(6.2, 12.3, 1.0, 0.7, 0.02, 0.5, '#6b8a52');
+  addBox(10.6, 12.3, 1.0, 0.7, 0.02, 0.5, '#6b8a52');
+  addBox(5.2, 14.0, 0.7, 1.5, 0.02, 0.6, '#6b8a52');
+  // نباتات على اليمين
+  addBox(18.3, 14.6, 2.0, 2.0, 0.02, 1.2, '#5f7a4a');
+  addBox(21.0, 15.5, 1.3, 1.3, 0.02, 0.9, '#5f7a4a');
+}
+
+/* ============================================================
+   7. الإسقاط والرسم
+   ============================================================ */
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const stage = document.getElementById('stage');
+let OX = 0, OY = 0, SC = 20;
+
+function rotPt(px, py) {
+  const c = Math.cos(state.yaw), s = Math.sin(state.yaw);
+  return [px * c - py * s, px * s + py * c];
+}
+function project(rx, ry, z) {
+  const sp = Math.sin(state.pitch), cp = Math.cos(state.pitch);
+  return [OX + rx * SC, OY + (ry * sp - z * cp) * SC];
+}
+function shade(hex, f) {
+  const n = parseInt(hex.slice(1), 16);
+  const r = Math.min(255, Math.round(((n >> 16) & 255) * f));
+  const g = Math.min(255, Math.round(((n >> 8) & 255) * f));
+  const b = Math.min(255, Math.round((n & 255) * f));
+  return `rgb(${r},${g},${b})`;
+}
+function normalOf(vs, cx, cy, cz) {
+  const a = vs[0], b = vs[1], d = vs[3];
+  const ux = b[0]-a[0], uy = b[1]-a[1], uz = b[2]-a[2];
+  const vx = d[0]-a[0], vy = d[1]-a[1], vz = d[2]-a[2];
+  let nx = uy*vz - uz*vy, ny = uz*vx - ux*vz, nz = ux*vy - uy*vx;
+  const l = Math.hypot(nx, ny, nz) || 1;
+  nx/=l; ny/=l; nz/=l;
+  const fx = (vs[0][0]+vs[1][0]+vs[2][0]+vs[3][0])/4;
+  const fy = (vs[0][1]+vs[1][1]+vs[2][1]+vs[3][1])/4;
+  const fz = (vs[0][2]+vs[1][2]+vs[2][2]+vs[3][2])/4;
+  if (nx*(fx-cx) + ny*(fy-cy) + nz*(fz-cz) < 0) { nx=-nx; ny=-ny; nz=-nz; }
+  return [nx, ny, nz];
+}
+
+const FACES = [[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7],[0,3,2,1]];
+const LIGHT = [0.42, -0.55, 0.72];
+
+function collectBox(b, out, cp, sp) {
+  const { x, y, w, d, z0, z1, color } = b;
+  const cs = [[x,y],[x+w,y],[x+w,y+d],[x,y+d]];
+  const R = cs.map(([px,py]) => rotPt(px - CX, py - CY));
+  const V = [];
+  for (let i = 0; i < 4; i++) V.push([R[i][0], R[i][1], z0]);
+  for (let i = 0; i < 4; i++) V.push([R[i][0], R[i][1], z1]);
+
+  const cx = (V[0][0]+V[2][0])/2, cy = (V[0][1]+V[2][1])/2, cz = (z0+z1)/2;
+
+  for (const f of FACES) {
+    const vs = f.map(i => V[i]);
+    const n = normalOf(vs, cx, cy, cz);
+    if (n[1]*cp - n[2]*sp >= 0) continue;
+
+    const dot = n[0]*LIGHT[0] + n[1]*LIGHT[1] + n[2]*LIGHT[2];
+    let sh = 0.46 + 0.72 * Math.max(0, dot);
+    if (sh > 1.22) sh = 1.22;
+
+    const pts = vs.map(v => project(v[0], v[1], v[2]));
+    let depth = 0;
+    for (const v of vs) depth += (v[1]*cp - v[2]*sp) / 4;
+
+    out.push({ pts, color: shade(color, sh), depth });
+  }
+}
+
+function render() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  if (canvas.width !== Math.round(w*dpr) || canvas.height !== Math.round(h*dpr)) {
+    canvas.width = Math.round(w*dpr);
+    canvas.height = Math.round(h*dpr);
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+
+  // خلفية متدرجة داكنة مثل الصورة
+  const g = ctx.createRadialGradient(w*0.5, h*0.35, 40, w*0.5, h*0.55, Math.max(w,h)*0.9);
+  g.addColorStop(0, '#2a2f38');
+  g.addColorStop(1, '#14171b');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, w, h);
+
+  SC = Math.min(w / 34, h / 30) * state.zoom;
+  const cp = Math.cos(state.pitch), sp = Math.sin(state.pitch);
+  OX = w/2 + state.panX;
+  OY = h/2 + state.panY + 1.8 * cp * SC;
+
+  const polys = [];
+  for (const b of boxes) collectBox(b, polys, cp, sp);
+  polys.sort((a, b) => b.depth - a.depth);
+
+  ctx.lineJoin = 'round';
+  for (const p of polys) {
+    ctx.beginPath();
+    ctx.moveTo(p.pts[0][0], p.pts[0][1]);
+    for (let i = 1; i < p.pts.length; i++) ctx.lineTo(p.pts[i][0], p.pts[i][1]);
+    ctx.closePath();
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.14)';
+    ctx.lineWidth = 0.55;
+    ctx.stroke();
+  }
+  updateGizmo();
+}
+
+/* ============================================================
+   8. مؤشر المحاور
+   ============================================================ */
+function updateGizmo() {
+  const c = Math.cos(state.yaw), s = Math.sin(state.yaw);
+  const sp = Math.sin(state.pitch), cp = Math.cos(state.pitch);
+  const L = 24;
+  const set = (id, dx, dy) => {
+    const m = Math.hypot(dx, dy) || 1;
+    const el = document.getElementById(id);
+    const ux = dx / m * L, uy = dy / m * L;
+    el.setAttribute('x2', ux);
+    el.setAttribute('y2', uy);
+    const t = document.getElementById('t' + id.slice(2));
+    if (t) { t.setAttribute('x', ux * 1.3); t.setAttribute('y', uy * 1.3 + 4); }
+  };
+  set('axX', c, s * sp);
+  set('axY', -s, c * sp);
+  set('axZ', 0, -cp);
+}
+
+/* ============================================================
+   9. التفاعل مع العارض
+   ============================================================ */
+let dragging = false, panning = false, lastX = 0, lastY = 0;
+
+canvas.addEventListener('mousedown', e => {
+  dragging = true;
+  panning = e.shiftKey || e.button === 2;
+  lastX = e.clientX; lastY = e.clientY;
+  hideHint();
+});
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  if (panning) {
+    state.panX += dx; state.panY += dy;
+  } else {
+    state.yaw += dx * 0.008;
+    state.pitch = Math.max(0.08, Math.min(1.53, state.pitch + dy * 0.006));
+  }
+  render();
+});
+window.addEventListener('mouseup', () => { dragging = false; panning = false; });
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = e.deltaY < 0 ? 1.1 : 0.9;
+  state.zoom = Math.max(0.25, Math.min(6, state.zoom * f));
+  render();
+  hideHint();
+}, { passive: false });
+
+/* --- لمس --- */
+let touchMode = null, tLast = null, pinchDist = 0;
+canvas.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    touchMode = 'rot';
+    tLast = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  } else if (e.touches.length === 2) {
+    touchMode = 'pinch';
+    pinchDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY);
+  }
+  hideHint();
+}, { passive: true });
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (touchMode === 'rot' && e.touches.length === 1) {
+    const t = e.touches[0];
+    state.yaw += (t.clientX - tLast.x) * 0.008;
+    state.pitch = Math.max(0.08, Math.min(1.53, state.pitch + (t.clientY - tLast.y) * 0.006));
+    tLast = { x: t.clientX, y: t.clientY };
+    render();
+  } else if (touchMode === 'pinch' && e.touches.length === 2) {
+    const d = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY);
+    state.zoom = Math.max(0.25, Math.min(6, state.zoom * (d / (pinchDist || d))));
+    pinchDist = d;
+    render();
+  }
+}, { passive: false });
+canvas.addEventListener('touchend', () => { touchMode = null; });
+
+/* ============================================================
+   10. مكعب المنظور + أزرار الحالة
+   ============================================================ */
+const VIEWS = {
+  top:  { yaw: 0,      pitch: 1.50 },
+  iso:  { yaw: -0.52,  pitch: 0.95 },
+  side: { yaw: 0,      pitch: 0.10 }
+};
+document.querySelectorAll('.view-cube .fc').forEach(f => {
+  f.onclick = () => {
+    const v = VIEWS[f.dataset.view];
+    if (v) animateTo(v.yaw, v.pitch);
+  };
+});
+function animateTo(ty, tp) {
+  const y0 = state.yaw, p0 = state.pitch, t0 = performance.now(), D = 400;
+  function step(t) {
+    const k = Math.min(1, (t - t0) / D);
+    const e = 1 - Math.pow(1 - k, 3);
+    state.yaw = y0 + (ty - y0) * e;
+    state.pitch = p0 + (tp - p0) * e;
+    render();
+    if (k < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+document.getElementById('btnFit').onclick = () => {
+  state.zoom = 1; state.panX = 0; state.panY = 0;
+  animateTo(-0.52, 0.95);
+};
+document.getElementById('btnPlus').onclick = () => {
+  state.zoom = Math.min(6, state.zoom * 1.25); render();
+};
+document.getElementById('btn3D').onclick = function () {
+  this.classList.toggle('active');
+  if (this.classList.contains('active')) animateTo(state.yaw, 0.95);
+  else animateTo(state.yaw, 1.50);
+};
+
+/* ============================================================
+   11. ربط الحقول بالمشهد
+   ============================================================ */
+document.querySelectorAll('[data-bind]').forEach(el => {
+  el.addEventListener('input', () => {
+    const key = el.dataset.bind;
+    if (el.type === 'number') {
+      const v = parseFloat(el.value);
+      if (isNaN(v)) return;
+      state[key] = v;
+    } else {
+      state[key] = el.value;
+      const sw = el.closest('.swatch');
+      if (sw) sw.style.background = el.value;
+    }
+    buildScene();
+    render();
+  });
+});
+
+/* ============================================================
+   12. إحداثيات متحركة
+   ============================================================ */
+setInterval(() => {
+  document.getElementById('cx').textContent = (11.5 + Math.sin(Date.now()/2600) * 0.6).toFixed(3);
+  document.getElementById('cy').textContent = (9.0 + Math.cos(Date.now()/3100) * 0.6).toFixed(3);
+  document.getElementById('cz').textContent = (0).toFixed(3);
+}, 120);
+
+/* ============================================================
+   13. تشغيل
+   ============================================================ */
+let hintTimer = setTimeout(hideHint, 6500);
+function hideHint() {
+  document.getElementById('hint').classList.add('hide');
+  clearTimeout(hintTimer);
+}
+
+const ro = new ResizeObserver(() => render());
+ro.observe(stage);
+
+buildScene();
+render();
+</script>
 </body>
 </html>
